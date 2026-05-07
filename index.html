@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Cash Counter Manager - حساب اليوميه</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -18,13 +18,18 @@
 
     <input
       id="product-name"
+      type="text"
       placeholder="Product Name"
+      required
     >
 
     <input
       id="product-price"
       type="number"
       placeholder="Fixed Price"
+      min="0"
+      step="0.01"
+      required
     >
 
     <button id="add-product-btn">
@@ -41,13 +46,18 @@
 
     <input
       id="fixed-expense-name"
+      type="text"
       placeholder="Expense Name"
+      required
     >
 
     <input
       id="fixed-expense-amount"
       type="number"
       placeholder="Amount"
+      min="0"
+      step="0.01"
+      required
     >
 
     <button id="add-fixed-expense-btn">
@@ -102,13 +112,18 @@
 
     <input
       id="expense-name"
+      type="text"
       placeholder="Expense Name"
+      required
     >
 
     <input
       id="expense-amount"
       type="number"
       placeholder="Amount"
+      min="0"
+      step="0.01"
+      required
     >
 
     <button id="add-expense-btn">
@@ -142,12 +157,16 @@
       id="cash-input"
       type="number"
       placeholder="Cash"
+      min="0"
+      step="0.01"
     >
 
     <input
       id="bank-input"
       type="number"
-      placeholder="Bankak"
+      placeholder="Bank"
+      min="0"
+      step="0.01"
     >
 
 
