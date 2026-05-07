@@ -1,5 +1,5 @@
 
-//from home android
+//from home android - Financial calculations with precision
 function calculateTotals() {
 
   state.summary.salesTotal =
