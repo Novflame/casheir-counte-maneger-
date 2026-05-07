@@ -61,6 +61,10 @@ function addProduct() {
 
   saveState();
 
+  // Clear input fields
+  document.getElementById("product-name").value = "";
+  document.getElementById("product-price").value = "";
+
   renderAll();
 }
 
@@ -92,6 +96,10 @@ function addFixedExpense() {
 
 
   saveState();
+
+  // Clear input fields
+  document.getElementById("fixed-expense-name").value = "";
+  document.getElementById("fixed-expense-amount").value = "";
 
   renderAll();
 }
@@ -191,6 +199,10 @@ function addDailyExpense() {
   calculateTotals();
 
   saveState();
+
+  // Clear input fields
+  document.getElementById("expense-name").value = "";
+  document.getElementById("expense-amount").value = "";
 
   renderAll();
 }
