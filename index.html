@@ -1,1 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
 
+  <!-- SETUP SCREEN -->
+
+  <section id="setup-screen">
+
+    <h2>Products Setup</h2>
+
+    <input
+      id="product-name"
+      placeholder="Product Name"
+    >
+
+    <input
+      id="product-price"
+      type="number"
+      placeholder="Fixed Price"
+    >
+
+    <button id="add-product-btn">
+      Add Product
+    </button>
+
+
+
+    <hr>
+
+
+
+    <h2>Fixed Expenses Setup</h2>
+
+    <input
+      id="fixed-expense-name"
+      placeholder="Expense Name"
+    >
+
+    <input
+      id="fixed-expense-amount"
+      type="number"
+      placeholder="Amount"
+    >
+
+    <button id="add-fixed-expense-btn">
+      Add Fixed Expense
+    </button>
+
+
+
+    <hr>
+
+
+
+    <button id="finish-setup-btn">
+      Finish Setup
+    </button>
+
+  </section>
+
+
+
+  <!-- DAILY SCREEN -->
+
+  <section
+    id="daily-screen"
+    style="display:none"
+  >
+
+    <h2>Sales Table</h2>
+
+    <table border="1">
+
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Qty</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+
+      <tbody id="sales-body"></tbody>
+
+    </table>
+
+
+
+    <hr>
+
+
+
+    <h2>Daily Expenses</h2>
+
+    <input
+      id="expense-name"
+      placeholder="Expense Name"
+    >
+
+    <input
+      id="expense-amount"
+      type="number"
+      placeholder="Amount"
+    >
+
+    <button id="add-expense-btn">
+      Add Expense
+    </button>
+
+
+
+    <table border="1">
+
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+
+      <tbody id="expenses-body"></tbody>
+
+    </table>
+
+
+
+    <hr>
+
+
+
+    <h2>Summary</h2>
+
+    <input
+      id="cash-input"
+      type="number"
+      placeholder="Cash"
+    >
+
+    <input
+      id="bank-input"
+      type="number"
+      placeholder="Bankak"
+    >
+
+
+
+    <div id="summary"></div>
+
+
+
+    <button id="new-day-btn">
+      Start New Day
+    </button>
+
+  </section>
+
+<script src="js/state.js"></script>
+<script src="js/calc.js"></script>
+<script src="js/render.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
