@@ -1,3 +1,14 @@
+// HTML Escaping utility function to prevent XSS
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
 
 function renderScreens() {
 
@@ -47,33 +58,37 @@ function renderSalesTable() {
       return `
         <tr>
 
-          <td>${product.name}</td>
+          <td>${escapeHtml(product.name)}</td>
 
-          <td>${product.fixedPrice}</td>
+          <td>${product.fixedPrice.toFixed(2)}</td>
 
           <td>
 
             <input
               type="number"
+              class="qty-input"
+              data-product-id="${product.id}"
               value="${sale?.qty || 0}"
-
-              onmouseout="
-                updateQty(
-                  '${product.id}',
-                  this.value
-                )
-              "
+              min="0"
+              step="1"
             >
 
           </td>
 
           <td>
-            ${sale?.total || 0}
+            ${(sale?.total || 0).toFixed(2)}
           </td>
 
         </tr>
       `;
     }).join("");
+
+  // Add event listeners for quantity inputs
+  document.querySelectorAll('.qty-input').forEach(input => {
+    input.addEventListener('change', (e) => {
+      updateQty(e.target.dataset.productId, e.target.value);
+    });
+  });
 }
 
 
@@ -101,9 +116,9 @@ function renderExpensesTable() {
       return `
         <tr>
 
-          <td>${exp.name}</td>
+          <td>${escapeHtml(exp.name)}</td>
 
-          <td>${exp.amount}</td>
+          <td>${exp.amount.toFixed(2)}</td>
 
         </tr>
       `;
@@ -123,22 +138,24 @@ function renderSummary() {
 
     <p>
       Sales Total:
-      ${state.summary.salesTotal}
+      <strong>${state.summary.salesTotal.toFixed(2)}</strong>
     </p>
 
     <p>
       Expenses Total:
-      ${state.summary.expensesTotal}
+      <strong>${state.summary.expensesTotal.toFixed(2)}</strong>
     </p>
 
     <p>
       Net:
-      ${state.summary.net}
+      <strong>${state.summary.net.toFixed(2)}</strong>
     </p>
 
     <p>
       Missing / Difference:
-      ${state.summary.missing}
+      <strong style="color: ${state.summary.missing < 0 ? 'red' : 'green'}">
+        ${state.summary.missing.toFixed(2)}
+      </strong>
     </p>
 
   `;
