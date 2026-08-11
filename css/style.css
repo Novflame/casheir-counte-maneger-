@@ -1,0 +1,55 @@
+
+
+.hidden{
+  display: none;
+}
+input{
+  width: 100px;
+  height: 30px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: #cfc;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+table input{
+  width: 100px ;
+  height: inherit;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+
+}
+
+th {
+  background-color: #f2f2f2;
+} 
+
+#fixed{
+  background: #cfc ;
+  width: 30px;
+  color: #000;
+  border-right: none;
+  
+  
+ 
+}
+td{
+  background: #3f5a51;
+  color: lightyellow;
+  position: relative;
+  padding-left: 2px;
+}
+
+
+#total{
+  background: #7ea192 ;
+  width: inherit;
+}
+
