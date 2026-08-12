@@ -51,11 +51,7 @@ export default function App() {
         backgroundColor: "#000",
       }}
     >
-
-
       <Header />
-
-      {/* PAGE - ANIMATES */}
 
       <main
         style={{
@@ -65,7 +61,6 @@ export default function App() {
         }}
       >
         <SwitchTransition mode="out-in">
-
           <CSSTransition
             key={location.pathname}
             nodeRef={nodeRef}
@@ -73,7 +68,6 @@ export default function App() {
             classNames="page"
             unmountOnExit
           >
-
             <div
               ref={nodeRef}
               className="page-wrapper"
@@ -97,9 +91,14 @@ export default function App() {
                 <Route
                   path="/CompanyInfo"
                   element={
-                    companyDone
-                      ? <Navigate to="/Home" replace />
-                      : <CompanyInfo />
+                    companyDone ? (
+                      <Navigate
+                        to="/Home"
+                        replace
+                      />
+                    ) : (
+                      <CompanyInfo />
+                    )
                   }
                 />
 
@@ -108,16 +107,14 @@ export default function App() {
                 <Route
                   path="/SetupStart"
                   element={
-                    !companyDone
-                      ? (
-                        <Navigate
-                          to="/CompanyInfo"
-                          replace
-                        />
-                      )
-                      : (
-                        <SetupStart />
-                      )
+                    !companyDone ? (
+                      <Navigate
+                        to="/CompanyInfo"
+                        replace
+                      />
+                    ) : (
+                      <SetupStart />
+                    )
                   }
                 />
 
@@ -125,49 +122,89 @@ export default function App() {
 
                 <Route
                   path="/Home"
-                  element={<Home />}
+                  element={
+                    companyDone ? (
+                      <Home />
+                    ) : (
+                      <Navigate
+                        to="/CompanyInfo"
+                        replace
+                      />
+                    )
+                  }
                 />
 
                 {/* EXPENSES */}
 
                 <Route
                   path="/Exepensess"
-                  element={<Exepensess />}
+                  element={
+                    companyDone ? (
+                      <Exepensess />
+                    ) : (
+                      <Navigate
+                        to="/CompanyInfo"
+                        replace
+                      />
+                    )
+                  }
                 />
 
                 {/* REPORT */}
 
                 <Route
                   path="/Report"
-                  element={<Report />}
+                  element={
+                    companyDone ? (
+                      <Report />
+                    ) : (
+                      <Navigate
+                        to="/CompanyInfo"
+                        replace
+                      />
+                    )
+                  }
                 />
 
                 {/* COUNTING */}
 
                 <Route
                   path="/Counting"
-                  element={<Counting />}
+                  element={
+                    companyDone ? (
+                      <Counting />
+                    ) : (
+                      <Navigate
+                        to="/CompanyInfo"
+                        replace
+                      />
+                    )
+                  }
                 />
 
                 {/* EXPORT */}
 
                 <Route
                   path="/Export"
-                  element={<Export />}
+                  element={
+                    companyDone ? (
+                      <Export />
+                    ) : (
+                      <Navigate
+                        to="/CompanyInfo"
+                        replace
+                      />
+                    )
+                  }
                 />
 
               </Routes>
             </div>
-
           </CSSTransition>
-
         </SwitchTransition>
       </main>
 
-      {/* FOOTER - DOES NOT ANIMATE */}
-
       <Footer />
-
     </div>
   );
 }
@@ -177,9 +214,21 @@ export default function App() {
 
 
 
-// import { Routes, Route, Navigate,useLocation  } from "react-router-dom";
+
+
+// import {
+//   Routes,
+//   Route,
+//   Navigate,
+//   useLocation,
+// } from "react-router-dom";
+
 // import { useRef } from "react";
-// import { CSSTransition, SwitchTransition } from "react-transition-group"
+// import {
+//   CSSTransition,
+//   SwitchTransition,
+// } from "react-transition-group";
+
 // import Header from "./assets/component/Header";
 // import Footer from "./assets/component/Footer";
 
@@ -195,12 +244,12 @@ export default function App() {
 // export default function App() {
 //   const location = useLocation();
 //   const nodeRef = useRef(null);
-//   const companyInfo = JSON.parse(localStorage.getItem("companyInfo") || "null");
 
- 
+//   const companyInfo = JSON.parse(
+//     localStorage.getItem("companyInfo") || "null"
+//   );
 
 //   const companyDone = !!companyInfo;
-//   // const productsDone = products.length > 0;
 
 //   function getStartPage() {
 //     if (!companyDone) {
@@ -211,16 +260,7 @@ export default function App() {
 //   }
 
 //   return (
-//      <SwitchTransition mode="out-in">
-//       <CSSTransition
-//         key={location.pathname}
-//         nodeRef={nodeRef}
-//         timeout={300}
-//         classNames="page"
-//         unmountOnExit
-//       >
-
-//     <div  ref={nodeRef} className="page-wrapper"
+//     <div
 //       style={{
 //         minHeight: "100vh",
 //         display: "flex",
@@ -228,57 +268,123 @@ export default function App() {
 //         backgroundColor: "#000",
 //       }}
 //     >
+
+
 //       <Header />
 
-//       <main style={{ flex: 1 }}>
-//         <Routes location={location}>
-//           {/* START */}
+//       {/* PAGE - ANIMATES */}
 
-//           <Route path="/" element={<Navigate to={getStartPage()} replace />} />
+//       <main
+//         style={{
+//           flex: 1,
+//           position: "relative",
+//           overflow: "hidden",
+//         }}
+//       >
+//         <SwitchTransition mode="out-in">
 
-//           {/* COMPANY INFORMATION */}
+//           <CSSTransition
+//             key={location.pathname}
+//             nodeRef={nodeRef}
+//             timeout={300}
+//             classNames="page"
+//             unmountOnExit
+//           >
 
-//           <Route
-//             path="/CompanyInfo"
-//             element={
-//               companyDone ? <Navigate to="/Home" replace /> : <CompanyInfo />
-//             }
-//           />
+//             <div
+//               ref={nodeRef}
+//               className="page-wrapper"
+//             >
+//               <Routes location={location}>
 
-//           {/* PRODUCT SETUP / UPDATE */}
+//                 {/* START */}
 
-//           <Route
-//             path="/SetupStart"
-//             element={
-//               !companyDone ? (
-//                 <Navigate to="/CompanyInfo" replace />
-//               ) : (
-//                 <SetupStart />
-//               )
-//             }
-//           />
+//                 <Route
+//                   path="/"
+//                   element={
+//                     <Navigate
+//                       to={getStartPage()}
+//                       replace
+//                     />
+//                   }
+//                 />
 
-//           {/* HOME */}
+//                 {/* COMPANY INFORMATION */}
 
-//           <Route path="/Home" element={<Home />} />
+//                 <Route
+//                   path="/CompanyInfo"
+//                   element={
+//                     companyDone
+//                       ? <Navigate to="/Home" replace />
+//                       : <CompanyInfo />
+//                   }
+//                 />
 
-//           {/* OTHER PAGES */}
+//                 {/* PRODUCT SETUP */}
 
-//           <Route path="/Exepensess" element={<Exepensess />} />
+//                 <Route
+//                   path="/SetupStart"
+//                   element={
+//                     !companyDone
+//                       ? (
+//                         <Navigate
+//                           to="/CompanyInfo"
+//                           replace
+//                         />
+//                       )
+//                       : (
+//                         <SetupStart />
+//                       )
+//                   }
+//                 />
 
-//           <Route path="/Report" element={<Report />} />
+//                 {/* HOME */}
 
-//           <Route path="/Counting" element={<Counting />} />
+//                 <Route
+//                   path="/Home"
+//                   element={<Home />}
+//                 />
 
-//           <Route path="/Export" element={<Export />} />
-//         </Routes>
+//                 {/* EXPENSES */}
+
+//                 <Route
+//                   path="/Exepensess"
+//                   element={<Exepensess />}
+//                 />
+
+//                 {/* REPORT */}
+
+//                 <Route
+//                   path="/Report"
+//                   element={<Report />}
+//                 />
+
+//                 {/* COUNTING */}
+
+//                 <Route
+//                   path="/Counting"
+//                   element={<Counting />}
+//                 />
+
+//                 {/* EXPORT */}
+
+//                 <Route
+//                   path="/Export"
+//                   element={<Export />}
+//                 />
+
+//               </Routes>
+//             </div>
+
+//           </CSSTransition>
+
+//         </SwitchTransition>
 //       </main>
 
+//       {/* FOOTER - DOES NOT ANIMATE */}
+
 //       <Footer />
+
 //     </div>
-    
- 
-//     </CSSTransition>
-//     </SwitchTransition>
-//  );
+//   );
 // }

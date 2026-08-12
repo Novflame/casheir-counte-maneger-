@@ -6,33 +6,57 @@ export default function SideMenu() {
   const [showDeveloperInfo, setShowDeveloperInfo] = useState(false);
   const navigate = useNavigate();
 
-  function resetApp() {
-    const confirmed = window.confirm(
-      "Reset the entire app?\n\nAll company, product, expense, and report data will be deleted.",
-    );
+function resetApp() {
+  const confirmed = window.confirm(
+    "Reset the entire app?\n\nAll company, product, expense, and report data will be deleted."
+  );
 
-    if (!confirmed) {
-      return;
-    }
-
-    // Delete only data belonging to this app
-    const appStorageKeys = [
-      "companyInfo",
-      "fixedProducts",
-      "fixedExpensess",
-      "currentReportExpenses",
-    ];
-
-    appStorageKeys.forEach((key) => {
-      localStorage.removeItem(key);
-    });
-
-    // Close the menu
-    setOpen(false);
-
-    // Restart the application
-    window.location.reload();
+  if (!confirmed) {
+    return;
   }
+
+  localStorage.removeItem("companyInfo");
+  localStorage.removeItem("fixedProducts");
+  localStorage.removeItem("fixedExpensess");
+  localStorage.removeItem("currentReportExpenses");
+  localStorage.removeItem("finalReport");
+
+  window.location.href = "/CompanyInfo";
+}
+
+
+
+
+
+
+  // function resetApp() {
+  //   const confirmed = window.confirm(
+  //     "Reset the entire app?\n\nAll company, product, expense, and report data will be deleted.",
+  //   );
+
+  //   if (!confirmed) {
+  //     return;
+  //   }
+
+  //   // Delete only data belonging to this app
+  //   const appStorageKeys = [
+  //     "companyInfo",
+  //     "fixedProducts",
+  //     "fixedExpensess",
+  //     "currentReportExpenses",
+  //   ];
+
+  //   appStorageKeys.forEach((key) => {
+  //     localStorage.removeItem(key);
+  //   });
+
+  //   // Close the menu
+  //   setOpen(false);
+
+  //   // Restart the application
+  //   window.location.reload();
+  //   navigate("/CompanyInfo");
+  // }
 
   const styles = {
     wrapper: {

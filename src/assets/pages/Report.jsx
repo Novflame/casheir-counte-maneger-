@@ -1,3 +1,4 @@
+
 import Container from "@mui/material/Container";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,10 +8,10 @@ export default function Report() {
     return JSON.parse(localStorage.getItem("fixedProducts")) || [];
   });
 
-
-
   const [fixedExpensess] = useState(() => {
-    const data = JSON.parse(localStorage.getItem("fixedExpensess"));
+    const data = JSON.parse(
+      localStorage.getItem("fixedExpensess")
+    );
 
     return data?.expenses || [];
   });
@@ -18,8 +19,9 @@ export default function Report() {
   const navigate = useNavigate();
 
   function formatNumber(value) {
-  return Number(value || 0).toLocaleString("de-DE");
-}
+    return Number(value || 0).toLocaleString("de-DE");
+  }
+
   function handleQtyChange(id, value) {
     setProducts((prev) =>
       prev.map((product) =>
@@ -28,133 +30,521 @@ export default function Report() {
               ...product,
               qty: Number(value),
             }
-          : product,
-      ),
+          : product
+      )
     );
   }
 
   const totalSales = products.reduce(
-    (sum, product) => sum + product.fixedPrice * (product.qty || 0),
-    0,
+    (sum, product) =>
+      sum +
+      Number(product.fixedPrice || 0) *
+        Number(product.qty || 0),
+    0
   );
 
   const totalExpenses = fixedExpensess.reduce(
-    (sum, item) => sum + item.amount,
-    0,
+    (sum, item) =>
+      sum + Number(item.amount || 0),
+    0
   );
+
+  const net = totalSales - totalExpenses;
 
   function saveReport() {
     const finalProducts = products.map((product) => ({
       id: product.id,
       name: product.name,
-      fixedPrice: product.fixedPrice,
-      qty: product.qty || 0,
-      total: product.fixedPrice * (product.qty || 0),
+      fixedPrice: Number(product.fixedPrice || 0),
+      qty: Number(product.qty || 0),
+      total:
+        Number(product.fixedPrice || 0) *
+        Number(product.qty || 0),
     }));
 
     const finalReport = {
       products: finalProducts,
-
       expenses: fixedExpensess,
-
       totalSales,
-
       totalExpenses,
-
-      net: totalSales - totalExpenses,
+      net,
     };
 
-    localStorage.setItem("finalReport", JSON.stringify(finalReport));
+    localStorage.setItem(
+      "finalReport",
+      JSON.stringify(finalReport)
+    );
 
-    //hear shoud be sucssess animation
-    navigate("/counting");
+    navigate("/Counting");
   }
 
   return (
-    <Container>
-      <nav className="flex gap-5 mb-5">
-        <Link to="/export" className="text-blue-400">
+    <Container
+      maxWidth="sm"
+      disableGutters
+      sx={{
+        width: "100%",
+        padding: "12px",
+        boxSizing: "border-box",
+      }}
+    >
+
+      {/* NAVIGATION */}
+
+      <nav
+        style={{
+          display: "flex",
+          gap: "8px",
+          marginBottom: "15px",
+          overflowX: "auto",
+          whiteSpace: "nowrap",
+        }}
+      >
+        <Link
+          to="/Export"
+          style={{
+            padding: "8px 12px",
+            backgroundColor: "#213558",
+            color: "#fff",
+            borderRadius: "8px",
+            textDecoration: "none",
+          }}
+        >
           EXPORT
         </Link>
 
-        <Link to="/Counting" className="text-blue-400">
+        <Link
+          to="/Counting"
+          style={{
+            padding: "8px 12px",
+            backgroundColor: "#213558",
+            color: "#fff",
+            borderRadius: "8px",
+            textDecoration: "none",
+          }}
+        >
           COUNTING
         </Link>
 
-        <Link to="/Exepensess" className="text-blue-400">
-          EXPENSESS
+        <Link
+          to="/Exepensess"
+          style={{
+            padding: "8px 12px",
+            backgroundColor: "#213558",
+            color: "#fff",
+            borderRadius: "8px",
+            textDecoration: "none",
+          }}
+        >
+          EXPENSES
         </Link>
       </nav>
 
       {/* PRODUCTS TABLE */}
 
-      <table
-        className="
-        w-full
-        border-collapse
-        bg-amber-50
-        "
+      <div
+        style={{
+          width: "100%",
+          overflow: "hidden",
+          borderRadius: "10px",
+        }}
       >
-        <thead>
-          <tr>
-            <th className="border p-2">Product</th>
+        <table
+          style={{
+            width: "100%",
+            tableLayout: "fixed",
+            borderCollapse: "collapse",
+            backgroundColor: "#fffbeb",
+          }}
+        >
+          <thead>
+            <tr>
+              <th style={styles.th}>
+                المنتج
+              </th>
 
-            <th className="border p-2">Price</th>
+              <th style={styles.th}>
+                السعر
+              </th>
 
-            <th className="border p-2 ">Qty</th>
+              <th style={styles.th}>
+                الكمية
+              </th>
 
-            <th className="border p-2">Total</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id} className="bg-slate-800">
-              <td className="border p-2 text-white">{product.name}</td>
-
-              <td className="border p-2 text-white">{product.fixedPrice}</td>
-
-              <td className="border p-2">
-                <input
-                  type="number"
-                  min="0"
-                  className="text-slate-50"
-                  value={product.qty || ""}
-                  onChange={(e) => handleQtyChange(product.id, e.target.value)}
-                />
-              </td>
-
-              <td className="border p-2 text-white">
-                {product.fixedPrice * (product.qty || 0)}
-              </td>
+              <th style={styles.th}>
+                الإجمالي
+              </th>
             </tr>
-          ))}
-        </tbody>
+          </thead>
 
-        <tfoot>
-          <tr className="bg-green-300">
-            <td colSpan="3" className="border p-2 font-bold">
-              Total Sales
-            </td>
+          <tbody>
+            {products.map((product) => {
+              const rowTotal =
+                Number(product.fixedPrice || 0) *
+                Number(product.qty || 0);
 
-            <td className="border p-2 font-bold">{formatNumber(totalSales)}</td>
-          </tr>
-        </tfoot>
-      </table>
+              return (
+                <tr key={product.id}>
+
+                  <td style={styles.td}>
+                    <span
+                      style={{
+                        display: "block",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {product.name}
+                    </span>
+                  </td>
+
+                  <td style={styles.td}>
+                    {formatNumber(product.fixedPrice)}
+                  </td>
+
+                  <td style={styles.td}>
+                    <input
+                      type="number"
+                      min="0"
+                      value={product.qty || ""}
+                      onChange={(e) =>
+                        handleQtyChange(
+                          product.id,
+                          e.target.value
+                        )
+                      }
+                      style={{
+                        width: "100%",
+                        minWidth: 0,
+                        boxSizing: "border-box",
+                        padding: "7px 3px",
+                        border: "1px solid #94a3b8",
+                        borderRadius: "6px",
+                        textAlign: "center",
+                        fontSize: "15px",
+                      }}
+                    />
+                  </td>
+
+                  <td style={styles.td}>
+                    {formatNumber(rowTotal)}
+                  </td>
+
+                </tr>
+              );
+            })}
+          </tbody>
+
+          <tfoot>
+            <tr>
+
+              <td
+                colSpan="3"
+                style={{
+                  ...styles.td,
+                  fontWeight: "bold",
+                  backgroundColor: "#86efac",
+                }}
+              >
+                الجملة
+              </td>
+
+              <td
+                style={{
+                  ...styles.td,
+                  fontWeight: "bold",
+                  backgroundColor: "#86efac",
+                }}
+              >
+                {formatNumber(totalSales)}
+              </td>
+
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      {/* COMPACT SUMMARY */}
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "6px",
+          marginTop: "12px",
+        }}
+      >
+
+        <SummaryBox
+          title="SALES"
+          value={totalSales}
+        />
+
+        <SummaryBox
+          title="EXPENSES"
+          value={totalExpenses}
+        />
+
+        <SummaryBox
+          title="NET"
+          value={net}
+        />
+
+      </div>
+
+      {/* SAVE */}
 
       <button
         onClick={saveReport}
-        className="
-        mt-5
-        bg-green-500
-        px-6
-        py-3
-        rounded-xl
-        text-xl
-        "
+        style={{
+          width: "100%",
+          marginTop: "12px",
+          padding: "12px",
+          backgroundColor: "#16a34a",
+          color: "#fff",
+          border: "none",
+          borderRadius: "10px",
+          fontSize: "17px",
+          fontWeight: "bold",
+          cursor: "pointer",
+        }}
       >
         SAVE FINAL REPORT
       </button>
+
     </Container>
   );
 }
+
+
+/* TABLE STYLES */
+
+const styles = {
+  th: {
+    width: "25%",
+    padding: "8px 3px",
+    border: "1px solid #64748b",
+    backgroundColor: "#cbd5e1",
+    color: "#111827",
+    fontSize: "13px",
+    textAlign: "center",
+  },
+
+  td: {
+    padding: "7px 3px",
+    border: "1px solid #64748b",
+    fontSize: "13px",
+    textAlign: "center",
+    overflow: "hidden",
+  },
+};
+
+
+/* SUMMARY */
+
+function SummaryBox({ title, value }) {
+  return (
+    <div
+      style={{
+        minWidth: 0,
+        padding: "8px 4px",
+        backgroundColor: "#213558",
+        borderRadius: "8px",
+        textAlign: "center",
+        color: "#fff",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "11px",
+          color: "#cbd5e1",
+          marginBottom: "3px",
+        }}
+      >
+        {title}
+      </div>
+
+      <div
+        style={{
+          fontSize: "14px",
+          fontWeight: "bold",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {Number(value || 0).toLocaleString("de-DE")}
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
+
+// import Container from "@mui/material/Container";
+// import { useState } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+
+// export default function Report() {
+//   const [products, setProducts] = useState(() => {
+//     return JSON.parse(localStorage.getItem("fixedProducts")) || [];
+//   });
+
+
+
+//   const [fixedExpensess] = useState(() => {
+//     const data = JSON.parse(localStorage.getItem("fixedExpensess"));
+
+//     return data?.expenses || [];
+//   });
+
+//   const navigate = useNavigate();
+
+//   function formatNumber(value) {
+//   return Number(value || 0).toLocaleString("de-DE");
+// }
+//   function handleQtyChange(id, value) {
+//     setProducts((prev) =>
+//       prev.map((product) =>
+//         product.id === id
+//           ? {
+//               ...product,
+//               qty: Number(value),
+//             }
+//           : product,
+//       ),
+//     );
+//   }
+
+//   const totalSales = products.reduce(
+//     (sum, product) => sum + product.fixedPrice * (product.qty || 0),
+//     0,
+//   );
+
+//   const totalExpenses = fixedExpensess.reduce(
+//     (sum, item) => sum + item.amount,
+//     0,
+//   );
+
+//   function saveReport() {
+//     const finalProducts = products.map((product) => ({
+//       id: product.id,
+//       name: product.name,
+//       fixedPrice: product.fixedPrice,
+//       qty: product.qty || 0,
+//       total: product.fixedPrice * (product.qty || 0),
+//     }));
+
+//     const finalReport = {
+//       products: finalProducts,
+
+//       expenses: fixedExpensess,
+
+//       totalSales,
+
+//       totalExpenses,
+
+//       net: totalSales - totalExpenses,
+//     };
+
+//     localStorage.setItem("finalReport", JSON.stringify(finalReport));
+
+//     //hear shoud be sucssess animation
+//     navigate("/counting");
+//   }
+
+//   return (
+//     <Container>
+//       <nav className="flex gap-5 mb-5">
+//         <Link to="/export" className="text-blue-400">
+//           EXPORT
+//         </Link>
+
+//         <Link to="/Counting" className="text-blue-400">
+//           COUNTING
+//         </Link>
+
+//         <Link to="/Exepensess" className="text-blue-400">
+//           EXPENSESS
+//         </Link>
+//       </nav>
+
+//       {/* PRODUCTS TABLE */}
+
+//       <table
+//         className="
+//         w-full
+//         border-collapse
+//         bg-amber-50
+//         "
+//       >
+//         <thead>
+//           <tr>
+//             <th className="border p-2">المنتج</th>
+
+//             <th className="border p-2">سعر البيع</th>
+
+//             <th className="border p-2 ">الموارك</th>
+
+//             <th className="border p-2">الإجمالي</th>
+//           </tr>
+//         </thead>
+
+//         <tbody>
+//           {products.map((product) => (
+//             <tr key={product.id} className="bg-slate-800">
+//               <td className="border p-2 text-white">
+//                 {product.name}</td>
+
+//               <td className="border p-2 text-white">
+//                 {product.fixedPrice}</td>
+
+//               <td className="border p-2">
+//                 <input
+//                   type="number"
+//                   min="0"
+//                   placeholder="enter number"
+//                   className="text-slate-50 bg-amber-800"
+//                   value={product.qty || ""}
+//                   onChange={(e) => handleQtyChange(product.id, e.target.value)}
+//                 />
+//               </td>
+
+//               <td className="border p-2 text-white">
+//                 {product.fixedPrice * (product.qty || 0)}
+//               </td>
+//             </tr>
+//           ))}
+//         </tbody>
+
+//         <tfoot>
+//           <tr className="bg-green-300">
+//             <td colSpan="3" className="border p-2 font-bold">
+//               الجمله
+//             </td>
+
+//             <td className="border p-2 font-bold">{formatNumber(totalSales)}</td>
+//           </tr>
+//         </tfoot>
+//       </table>
+
+//       <button
+//         onClick={saveReport}
+//         className="
+//         mt-5
+//         bg-green-500
+//         px-6
+//         py-3
+//         rounded-xl
+//         text-xl
+//         "
+//       >
+//         SAVE FINAL REPORT
+//       </button>
+//     </Container>
+//   );
+// }
