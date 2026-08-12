@@ -1,7 +1,7 @@
 
 import Container from "@mui/material/Container";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Report() {
   const [products, setProducts] = useState(() => {
@@ -16,7 +16,7 @@ export default function Report() {
     return data?.expenses || [];
   });
 
-  const navigate = useNavigate();
+   const navigate = useNavigate();
 
   function formatNumber(value) {
     return Number(value || 0).toLocaleString("de-DE");
@@ -62,6 +62,9 @@ export default function Report() {
         Number(product.qty || 0),
     }));
 
+
+
+
     const finalReport = {
       products: finalProducts,
       expenses: fixedExpensess,
@@ -75,7 +78,7 @@ export default function Report() {
       JSON.stringify(finalReport)
     );
 
-    navigate("/Counting");
+     navigate("/Counting");
   }
 
   return (
@@ -91,7 +94,7 @@ export default function Report() {
 
       {/* NAVIGATION */}
 
-      <nav
+      {/* <nav
         style={{
           display: "flex",
           gap: "8px",
@@ -138,7 +141,7 @@ export default function Report() {
         >
           EXPENSES
         </Link>
-      </nav>
+      </nav> */}
 
       {/* PRODUCTS TABLE */}
 
@@ -379,172 +382,3 @@ function SummaryBox({ title, value }) {
     </div>
   );
 }
-
-
-
-
-
-
-// import Container from "@mui/material/Container";
-// import { useState } from "react";
-// import { Link, useNavigate } from "react-router-dom";
-
-// export default function Report() {
-//   const [products, setProducts] = useState(() => {
-//     return JSON.parse(localStorage.getItem("fixedProducts")) || [];
-//   });
-
-
-
-//   const [fixedExpensess] = useState(() => {
-//     const data = JSON.parse(localStorage.getItem("fixedExpensess"));
-
-//     return data?.expenses || [];
-//   });
-
-//   const navigate = useNavigate();
-
-//   function formatNumber(value) {
-//   return Number(value || 0).toLocaleString("de-DE");
-// }
-//   function handleQtyChange(id, value) {
-//     setProducts((prev) =>
-//       prev.map((product) =>
-//         product.id === id
-//           ? {
-//               ...product,
-//               qty: Number(value),
-//             }
-//           : product,
-//       ),
-//     );
-//   }
-
-//   const totalSales = products.reduce(
-//     (sum, product) => sum + product.fixedPrice * (product.qty || 0),
-//     0,
-//   );
-
-//   const totalExpenses = fixedExpensess.reduce(
-//     (sum, item) => sum + item.amount,
-//     0,
-//   );
-
-//   function saveReport() {
-//     const finalProducts = products.map((product) => ({
-//       id: product.id,
-//       name: product.name,
-//       fixedPrice: product.fixedPrice,
-//       qty: product.qty || 0,
-//       total: product.fixedPrice * (product.qty || 0),
-//     }));
-
-//     const finalReport = {
-//       products: finalProducts,
-
-//       expenses: fixedExpensess,
-
-//       totalSales,
-
-//       totalExpenses,
-
-//       net: totalSales - totalExpenses,
-//     };
-
-//     localStorage.setItem("finalReport", JSON.stringify(finalReport));
-
-//     //hear shoud be sucssess animation
-//     navigate("/counting");
-//   }
-
-//   return (
-//     <Container>
-//       <nav className="flex gap-5 mb-5">
-//         <Link to="/export" className="text-blue-400">
-//           EXPORT
-//         </Link>
-
-//         <Link to="/Counting" className="text-blue-400">
-//           COUNTING
-//         </Link>
-
-//         <Link to="/Exepensess" className="text-blue-400">
-//           EXPENSESS
-//         </Link>
-//       </nav>
-
-//       {/* PRODUCTS TABLE */}
-
-//       <table
-//         className="
-//         w-full
-//         border-collapse
-//         bg-amber-50
-//         "
-//       >
-//         <thead>
-//           <tr>
-//             <th className="border p-2">المنتج</th>
-
-//             <th className="border p-2">سعر البيع</th>
-
-//             <th className="border p-2 ">الموارك</th>
-
-//             <th className="border p-2">الإجمالي</th>
-//           </tr>
-//         </thead>
-
-//         <tbody>
-//           {products.map((product) => (
-//             <tr key={product.id} className="bg-slate-800">
-//               <td className="border p-2 text-white">
-//                 {product.name}</td>
-
-//               <td className="border p-2 text-white">
-//                 {product.fixedPrice}</td>
-
-//               <td className="border p-2">
-//                 <input
-//                   type="number"
-//                   min="0"
-//                   placeholder="enter number"
-//                   className="text-slate-50 bg-amber-800"
-//                   value={product.qty || ""}
-//                   onChange={(e) => handleQtyChange(product.id, e.target.value)}
-//                 />
-//               </td>
-
-//               <td className="border p-2 text-white">
-//                 {product.fixedPrice * (product.qty || 0)}
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-
-//         <tfoot>
-//           <tr className="bg-green-300">
-//             <td colSpan="3" className="border p-2 font-bold">
-//               الجمله
-//             </td>
-
-//             <td className="border p-2 font-bold">{formatNumber(totalSales)}</td>
-//           </tr>
-//         </tfoot>
-//       </table>
-
-//       <button
-//         onClick={saveReport}
-//         className="
-//         mt-5
-//         bg-green-500
-//         px-6
-//         py-3
-//         rounded-xl
-//         text-xl
-//         "
-//       >
-//         SAVE FINAL REPORT
-//       </button>
-//     </Container>
-//   );
-// }

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../img/logo=final.png";
 
 
+
 export default function Export() {
   const [companyInfo] = useState(() => {
     return JSON.parse(localStorage.getItem("companyInfo")) || {};
@@ -28,6 +29,11 @@ export default function Export() {
 
   const counting =
     JSON.parse(localStorage.getItem("counting")) || null;
+
+
+
+// STYLES //////
+
 
   const styles = {
     page: {
@@ -132,6 +138,7 @@ export default function Export() {
     },
 
     table: {
+     direction: "rtl",
       width: "100%",
       tableLayout: "fixed",
       borderCollapse: "collapse",
@@ -223,89 +230,170 @@ export default function Export() {
        FINAL COUNTING
     ========================= */
 
+
     countingContainer: {
-      display: "grid",
-      gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-      gap: "5px",
-      width: "100%",
-      boxSizing: "border-box",
-    },
+  width: "100%",
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gap: "10px",
+  boxSizing: "border-box",
+  direction: "rtl",
+},
 
-    countingCard: {
-      minWidth: 0,
-      width: "100%",
-      boxSizing: "border-box",
-      padding: "7px 4px",
-      backgroundColor: "#213558",
-      color: "#ffffff",
-      borderRadius: "6px",
-      border: "1px solid #4c608e",
-    },
+countingCard: {
+  minWidth: 0,
+  boxSizing: "border-box",
+  padding: "12px",
+  borderRadius: "10px",
+  backgroundColor: "#213558",
+  border: "1px solid #4c608e",
+  direction: "rtl",
+},
 
-    countingCardTitle: {
-      textAlign: "center",
-      paddingBottom: "5px",
-      marginBottom: "6px",
-      borderBottom: "1px solid #64748b",
-      fontSize: "clamp(9px, 2.8vw, 14px)",
-      fontWeight: "800",
-      letterSpacing: "7px",
-    },
+finalCard: {
+  gridColumn: "1 / -1",
+  minWidth: 0,
+  boxSizing: "border-box",
+  padding: "12px",
+  borderRadius: "10px",
+  backgroundColor: "#213558",
+  border: "1px solid #4c608e",
+  direction: "rtl",
+},
 
-    countingItem: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      textAlign: "center",
-      minWidth: 0,
-      marginBottom: "6px",
-      lineHeight: "1.15",
-    },
+countingRow: {
+  display: "grid",
+  gridTemplateColumns: "1fr auto",
+  alignItems: "center",
+  gap: "8px",
+  padding: "8px 0",
+  borderBottom: "1px solid #4c608e",
+  minWidth: 0,
+},
 
-    countingLabel: {
-      width: "100%",
-      color: "#cbd5e1",
-      fontSize: "clamp(8px, 2.4vw, 12px)",
-      fontWeight: "600",
-      overflowWrap: "break-word",
-      backgroundColor: "#EB6534",
+countingLabel: {
+  direction: "rtl",
+  whiteSpace: "nowrap",
+  fontSize: "clamp(11px, 3vw, 15px)",
+  color: "#ffffff",
+  fontWeight: "600",
+},
+
+countingNumber: {
+  direction: "ltr",
+  unicodeBidi: "isolate",
+  whiteSpace: "nowrap",
+  fontSize: "clamp(11px, 3vw, 15px)",
+  color: "#ffffff",
+  textAlign: "left",
+},
+
+countingTotal: {
+  display: "grid",
+  gridTemplateColumns: "1fr auto",
+  alignItems: "center",
+  gap: "8px",
+  marginTop: "8px",
+  padding: "9px 7px",
+  borderRadius: "6px",
+  backgroundColor: "#d8b804",
+  minWidth: 0,
+},
+
+difference: {
+  display: "grid",
+  gridTemplateColumns: "1fr auto",
+  alignItems: "center",
+  gap: "8px",
+  marginTop: "8px",
+  padding: "9px 7px",
+  borderRadius: "6px",
+  minWidth: 0,
+},
+
+    // countingContainer: {
+    //   display: "grid",
+    //   gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+    //   gap: "5px",
+    //   width: "100%",
+    //   boxSizing: "border-box",
+    // },
+
+    // countingCard: {
+    //   minWidth: 0,
+    //   width: "100%",
+    //   boxSizing: "border-box",
+    //   padding: "7px 4px",
+    //   backgroundColor: "#213558",
+    //   color: "#ffffff",
+    //   borderRadius: "6px",
+    //   border: "1px solid #4c608e",
+    // },
+
+    // countingCardTitle: {
+    //   textAlign: "center",
+    //   paddingBottom: "5px",
+    //   marginBottom: "6px",
+    //   borderBottom: "1px solid #64748b",
+    //   fontSize: "clamp(9px, 2.8vw, 14px)",
+    //   fontWeight: "800",
+    //   letterSpacing: "7px",
+    // },
+
+    // countingItem: {
+    //   display: "flex",
+    //   flexDirection: "column",
+    //   alignItems: "center",
+    //   justifyContent: "center",
+    //   textAlign: "center",
+    //   minWidth: 0,
+    //   marginBottom: "6px",
+    //   lineHeight: "1.15",
+    // },
+
+    // countingLabel: {
+    //   width: "100%",
+    //   color: "#cbd5e1",
+    //   fontSize: "clamp(8px, 2.4vw, 12px)",
+    //   fontWeight: "600",
+    //   overflowWrap: "break-word",
+    //   backgroundColor: "#EB6534",
     
     
-    },
+    // },
 
-    countingValue: {
-      width: "100%",
-      color: "#ffffff",
-      fontSize: "clamp(9px, 2.7vw, 14px)",
-      fontWeight: "900",
-      fontVariantNumeric: "tabular-nums",
-      whiteSpace: "normal",
-      overflowWrap: "anywhere",
-      wordBreak: "break-word",
-    },
+    // countingValue: {
+    //   width: "100%",
+    //   color: "#ffffff",
+    //   fontSize: "clamp(9px, 2.7vw, 14px)",
+    //   fontWeight: "900",
+    //   fontVariantNumeric: "tabular-nums",
+    //   whiteSpace: "normal",
+    //   overflowWrap: "anywhere",
+    //   wordBreak: "break-word",
+    // },
 
-    countingTotal: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      textAlign: "center",
-      paddingTop: "5px",
-      borderTop: "1px solid #64748b",
-      lineHeight: "1.15",
-    },
+    // countingTotal: {
+    //   display: "flex",
+    //   flexDirection: "column",
+    //   alignItems: "center",
+    //   textAlign: "center",
+    //   paddingTop: "5px",
+    //   borderTop: "1px solid #64748b",
+    //   lineHeight: "1.15",
+    // },
 
-    difference: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      textAlign: "center",
-      marginTop: "5px",
-      padding: "5px 2px",
-      borderRadius: "4px",
-      color: "#111827",
-      lineHeight: "1.15",
-    },
+    // difference: {
+    //   display: "flex",
+    //   flexDirection: "column",
+    //   alignItems: "center",
+    //   textAlign: "center",
+    //   marginTop: "5px",
+    //   padding: "5px 2px",
+    //   borderRadius: "4px",
+    //   color: "#111827",
+    //   lineHeight: "1.15",
+    // },
 
     /* =========================
        SIGNATURE
@@ -659,158 +747,275 @@ export default function Export() {
 
         ) : (
 
+          // <div style={styles.countingContainer}>
+
+          //   {/* CARD 1 */}
+
+          //   <div style={styles.countingCard}>
+
+          //     <div style={styles.countingCardTitle}>
+          //       النقدية
+          //     </div>
+
+          //     <div style={styles.countingItem}>
+
+          //       <span style={styles.countingLabel}>
+          //         كاش
+          //       </span>
+
+          //       <strong style={styles.countingValue}>
+          //         {formatNumber(counting.cash)}
+          //       </strong>
+
+          //     </div>
+
+          //     <div style={styles.countingItem}>
+
+          //       <span style={styles.countingLabel}>
+          //         بنكك
+          //       </span>
+
+          //       <strong style={styles.countingValue}>
+          //         {formatNumber(counting.bank)}
+          //       </strong>
+
+          //     </div>
+
+          //     <div style={styles.countingTotal}>
+
+          //       <span style={styles.countingLabel}>
+          //         الموجود
+          //       </span>
+
+          //       <strong style={styles.countingValue}>
+          //         {formatNumber(counting.moneyExist)}
+          //       </strong>
+
+          //     </div>
+
+          //   </div>
+
+
+          //   {/* CARD 2 */}
+
+          //   <div style={styles.countingCard}>
+
+          //     <div style={styles.countingCardTitle}>
+          //       المبيعات
+          //     </div>
+
+          //     <div style={styles.countingItem}>
+
+          //       <span style={styles.countingLabel}>
+          //         المبيعات
+          //       </span>
+
+          //       <strong style={styles.countingValue}>
+          //         {formatNumber(counting.salesTotal)}
+          //       </strong>
+
+          //     </div>
+
+          //     <div style={styles.countingItem}>
+
+          //       <span style={styles.countingLabel}>
+          //         المصروفات
+          //       </span>
+
+          //       <strong style={styles.countingValue}>
+          //         {formatNumber(counting.expensesTotal)}
+          //       </strong>
+
+          //     </div>
+
+          //     <div style={styles.countingTotal}>
+
+          //       <span style={styles.countingLabel}>
+          //         المفروض
+          //       </span>
+
+          //       <strong style={styles.countingValue}>
+          //         {formatNumber(counting.supposed)}
+          //       </strong>
+
+          //     </div>
+
+          //   </div>
+
+
+          //   {/* CARD 3 */}
+
+          //   <div style={styles.countingCard}>
+
+          //     <div style={styles.countingCardTitle}>
+          //       النهائي
+          //     </div>
+
+          //     <div style={styles.countingItem}>
+
+          //       <span style={styles.countingLabel}>
+          //         الموجود
+          //       </span>
+
+          //       <strong style={styles.countingValue}>
+          //         {formatNumber(counting.exist)}
+          //       </strong>
+
+          //     </div>
+
+          //     <div style={styles.countingItem}>
+
+          //       <span style={styles.countingLabel}>
+          //         المفروض
+          //       </span>
+
+          //       <strong style={styles.countingValue}>
+          //         {formatNumber(counting.supposed)}
+          //       </strong>
+
+          //     </div>
+
+
+          //     <div
+          //       style={{
+          //         ...styles.difference,
+          //         backgroundColor:
+          //           Number(counting.difference) === 0
+          //             ? "#86efac"
+          //             : "#EB6534",
+          //       }}
+          //     >
+
+          //       <span style={styles.countingLabel}>
+          //         الفرق
+          //       </span>
+
+          //       <strong style={styles.countingValue}>
+          //         {formatNumber(counting.difference)}
+          //       </strong>
+
+          //     </div>
+
+          //   </div>
+
+          // </div>
+
           <div style={styles.countingContainer}>
 
-            {/* CARD 1 */}
+  {/* MONEY */}
+  <div style={styles.countingCard}>
 
-            <div style={styles.countingCard}>
+    <div style={styles.countingRow}>
+      <span style={styles.countingLabel}>كاش</span>
+      <strong style={styles.countingNumber}>
+        {formatNumber(counting.cash)}
+      </strong>
+    </div>
 
-              <div style={styles.countingCardTitle}>
-                النقدية
-              </div>
+    <div style={styles.countingRow}>
+      <span style={styles.countingLabel}>بنكك</span>
+      <strong style={styles.countingNumber}>
+        {formatNumber(counting.bank)}
+      </strong>
+    </div>
 
-              <div style={styles.countingItem}>
+    <div style={styles.countingTotal}>
+      <span style={styles.countingLabel}>الإجمالي</span>
+      <strong style={styles.countingNumber}>
+        {formatNumber(counting.moneyExist)}
+      </strong>
+    </div>
 
-                <span style={styles.countingLabel}>
-                  كاش
-                </span>
-
-                <strong style={styles.countingValue}>
-                  {formatNumber(counting.cash)}
-                </strong>
-
-              </div>
-
-              <div style={styles.countingItem}>
-
-                <span style={styles.countingLabel}>
-                  بنكك
-                </span>
-
-                <strong style={styles.countingValue}>
-                  {formatNumber(counting.bank)}
-                </strong>
-
-              </div>
-
-              <div style={styles.countingTotal}>
-
-                <span style={styles.countingLabel}>
-                  الموجود
-                </span>
-
-                <strong style={styles.countingValue}>
-                  {formatNumber(counting.moneyExist)}
-                </strong>
-
-              </div>
-
-            </div>
+  </div>
 
 
-            {/* CARD 2 */}
+  {/* SALES */}
+  <div style={styles.countingCard}>
 
-            <div style={styles.countingCard}>
+    <div style={styles.countingRow}>
+      <span style={styles.countingLabel}>المبيعات</span>
+      <strong style={styles.countingNumber}>
+        {formatNumber(counting.salesTotal)}
+      </strong>
+    </div>
 
-              <div style={styles.countingCardTitle}>
-                المبيعات
-              </div>
+    <div style={styles.countingRow}>
+      <span style={styles.countingLabel}>المصروفات</span>
+      <strong style={styles.countingNumber}>
+        {formatNumber(counting.expensesTotal)}
+      </strong>
+    </div>
 
-              <div style={styles.countingItem}>
+    <div style={styles.countingTotal}>
+      <span style={styles.countingLabel}>المفروض</span>
+      <strong style={styles.countingNumber}>
+        {formatNumber(counting.supposed)}
+      </strong>
+    </div>
 
-                <span style={styles.countingLabel}>
-                  المبيعات
-                </span>
-
-                <strong style={styles.countingValue}>
-                  {formatNumber(counting.salesTotal)}
-                </strong>
-
-              </div>
-
-              <div style={styles.countingItem}>
-
-                <span style={styles.countingLabel}>
-                  المصروفات
-                </span>
-
-                <strong style={styles.countingValue}>
-                  {formatNumber(counting.expensesTotal)}
-                </strong>
-
-              </div>
-
-              <div style={styles.countingTotal}>
-
-                <span style={styles.countingLabel}>
-                  المفروض
-                </span>
-
-                <strong style={styles.countingValue}>
-                  {formatNumber(counting.supposed)}
-                </strong>
-
-              </div>
-
-            </div>
+  </div>
 
 
-            {/* CARD 3 */}
+  {/* FINAL */}
+  <div style={styles.finalCard}>
 
-            <div style={styles.countingCard}>
+    <div style={styles.countingRow}>
+      <span style={styles.countingLabel}>
+        الموجود</span>
+      <strong style={styles.countingNumber}>
+        {formatNumber(counting.moneyExist)}
+      </strong>
+    </div>
 
-              <div style={styles.countingCardTitle}>
-                النهائي
-              </div>
-
-              <div style={styles.countingItem}>
-
-                <span style={styles.countingLabel}>
-                  الموجود
-                </span>
-
-                <strong style={styles.countingValue}>
-                  {formatNumber(counting.exist)}
-                </strong>
-
-              </div>
-
-              <div style={styles.countingItem}>
-
-                <span style={styles.countingLabel}>
-                  المفروض
-                </span>
-
-                <strong style={styles.countingValue}>
-                  {formatNumber(counting.supposed)}
-                </strong>
-
-              </div>
+    <div style={styles.countingRow}>
+      <span style={styles.countingLabel}>المفروض</span>
+      <strong style={styles.countingNumber}>
+        {formatNumber(counting.supposed)}
+      </strong>
+    </div>
 
 
-              <div
-                style={{
-                  ...styles.difference,
-                  backgroundColor:
-                    Number(counting.difference) === 0
-                      ? "#86efac"
-                      : "#EB6534",
-                }}
-              >
 
-                <span style={styles.countingLabel}>
-                  الفرق
-                </span>
 
-                <strong style={styles.countingValue}>
-                  {formatNumber(counting.difference)}
-                </strong>
 
-              </div>
 
-            </div>
 
-          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+    <div
+      style={{
+        ...styles.difference,
+        backgroundColor:
+          Number(counting.difference) === 0
+            ? "#86efac"
+            : "#fca5a5",
+      }}
+    >
+      <span style={styles.countingLabel}>الفرق</span>
+
+      <strong style={styles.countingNumber}>
+        {formatNumber(counting.difference)}
+      </strong>
+    </div>
+
+  </div>
+
+</div>
 
         )}
 
