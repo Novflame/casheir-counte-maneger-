@@ -28,36 +28,6 @@ function resetApp() {
 
 
 
-
-  // function resetApp() {
-  //   const confirmed = window.confirm(
-  //     "Reset the entire app?\n\nAll company, product, expense, and report data will be deleted.",
-  //   );
-
-  //   if (!confirmed) {
-  //     return;
-  //   }
-
-  //   // Delete only data belonging to this app
-  //   const appStorageKeys = [
-  //     "companyInfo",
-  //     "fixedProducts",
-  //     "fixedExpensess",
-  //     "currentReportExpenses",
-  //   ];
-
-  //   appStorageKeys.forEach((key) => {
-  //     localStorage.removeItem(key);
-  //   });
-
-  //   // Close the menu
-  //   setOpen(false);
-
-  //   // Restart the application
-  //   window.location.reload();
-  //   navigate("/CompanyInfo");
-  // }
-
   const styles = {
     wrapper: {
       position: "relative",
@@ -225,6 +195,17 @@ function resetApp() {
                 }}
               >
                 Update Fixed Products
+              </button>
+
+                <button
+                type="button"
+                style={styles.actionButton}
+                onClick={() => {
+                  setOpen(false);
+                navigate("/Exepensess?mode=update");
+                }}
+              >
+                Update Exeoenssess
               </button>
 
               <button

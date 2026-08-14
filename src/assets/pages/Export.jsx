@@ -10,6 +10,7 @@ export default function Export() {
   const [companyInfo] = useState(() => {
     return JSON.parse(localStorage.getItem("companyInfo")) || {};
   });
+  
 
   const reportRef = useRef(null);
   const navigate = useNavigate();
@@ -35,423 +36,745 @@ export default function Export() {
 // STYLES //////
 
 
-  const styles = {
-    page: {
-      width: "100%",
-      minHeight: "100vh",
-      padding: "10px",
-      boxSizing: "border-box",
-      backgroundColor: "#0f172a",
-      fontFamily: "Arial, sans-serif",
-    },
+//   const styles = {
+//     page: {
+//       width: "100%",
+//       minHeight: "100vh",
+//       padding: "10px",
+//       boxSizing: "border-box",
+//       backgroundColor: "#0f172a",
+//       fontFamily: "Arial, sans-serif",
+//     },
 
-    report: {
-      width: "100%",
-      maxWidth: "760px",
-      margin: "0 auto",
-      padding: "clamp(12px, 3vw, 28px)",
-      boxSizing: "border-box",
-      backgroundColor: "#ffffff",
-      color: "#111827",
-      borderRadius: "8px",
-    },
+//     report: {
+//       width: "100%",
+//       maxWidth: "760px",
+//       margin: "0 auto",
+//       padding: "clamp(12px, 3vw, 28px)",
+//       boxSizing: "border-box",
+//       backgroundColor: "#ffffff",
+//       color: "#111827",
+//       borderRadius: "8px",
+//     },
 
-    /* =========================
-       HEADER
-    ========================= */
+//     /* =========================
+//        HEADER
+//     ========================= */
 
-    header: {
-      display: "grid",
-      gridTemplateColumns: "auto 1fr",
-      alignItems: "center",
-      gap: "12px",
-      paddingBottom: "12px",
-      marginBottom: "14px",
-      borderBottom: "3px solid #213558",
-    },
+//     header: {
+//       display: "grid",
+//       gridTemplateColumns: "auto 1fr",
+//       alignItems: "center",
+//       gap: "12px",
+//       paddingBottom: "12px",
+//       marginBottom: "14px",
+//       borderBottom: "3px solid #213558",
+//     },
 
-    logo: {
-      width: "clamp(48px, 14vw, 78px)",
-      height: "clamp(48px, 14vw, 78px)",
-      objectFit: "contain",
-      display: "block",
-    },
+//     logo: {
+//       width: "clamp(48px, 14vw, 78px)",
+//       height: "clamp(48px, 14vw, 78px)",
+//       objectFit: "contain",
+//       display: "block",
+//     },
 
-    headerInfo: {
-      minWidth: 0,
-    },
+//     headerInfo: {
+//       minWidth: 0,
+//     },
 
-    companyName: {
-      margin: 0,
-      color: "#213558",
-      fontSize: "clamp(17px, 5vw, 27px)",
-      fontWeight: "800",
-      lineHeight: "1.15",
-      overflowWrap: "break-word",
-    },
+//     companyName: {
+//       margin: 0,
+//       color: "#213558",
+//       fontSize: "clamp(17px, 5vw, 27px)",
+//       fontWeight: "800",
+//       lineHeight: "1.15",
+//       overflowWrap: "break-word",
+//     },
 
-    division: {
-      margin: "3px 0 0",
-      color: "#475569",
-      fontSize: "clamp(11px, 3vw, 15px)",
-      fontWeight: "600",
-      overflowWrap: "break-word",
-    },
+//     division: {
+//       margin: "3px 0 0",
+//       color: "#475569",
+//       fontSize: "clamp(11px, 3vw, 15px)",
+//       fontWeight: "600",
+//       overflowWrap: "break-word",
+//     },
 
-    reportTitle: {
-      margin: "5px 0 0",
-      color: "#d8b804",
-      fontSize: "clamp(12px, 3.2vw, 18px)",
-      fontWeight: "800",
-    },
+//     reportTitle: {
+//       margin: "5px 0 0",
+//       color: "#d8b804",
+//       fontSize: "clamp(12px, 3.2vw, 18px)",
+//       fontWeight: "800",
+//     },
 
-    arabicTitle: {
-      textAlign: "center",
-      margin: "8px 0 16px",
-      color: "#213558",
-      fontSize: "clamp(17px, 4.5vw, 25px)",
-      fontWeight: "800",
-    },
+//     arabicTitle: {
+//       textAlign: "center",
+//       margin: "8px 0 16px",
+//       color: "#213558",
+//       fontSize: "clamp(17px, 4.5vw, 25px)",
+//       fontWeight: "800",
+//     },
 
-    /* =========================
-       SECTION
-    ========================= */
+//     /* =========================
+//        SECTION
+//     ========================= */
 
-    sectionTitle: {
-      margin: "14px 0 6px",
-      padding: "6px 8px",
-      backgroundColor: "#213558",
-      color: "#ffffff",
-      borderRadius: "5px",
-      fontSize: "clamp(12px, 3.5vw, 17px)",
-      fontWeight: "800",
-      textAlign: "right",
-    },
+//     sectionTitle: {
+//       margin: "14px 0 6px",
+//       padding: "6px 8px",
+//       backgroundColor: "#213558",
+//       color: "#ffffff",
+//       borderRadius: "5px",
+//       fontSize: "clamp(12px, 3.5vw, 17px)",
+//       fontWeight: "800",
+//       textAlign: "right",
+//     },
 
-    /* =========================
-       TABLES
-    ========================= */
+//     /* =========================
+//        TABLES
+//     ========================= */
 
-    tableWrapper: {
-      width: "100%",
-      boxSizing: "border-box",
-    },
+//     tableWrapper: {
+//       width: "100%",
+//       boxSizing: "border-box",
+//     },
 
-    table: {
-     direction: "rtl",
-      width: "100%",
-      tableLayout: "fixed",
-      borderCollapse: "collapse",
-      fontSize: "clamp(9px, 2.7vw, 14px)",
-    },
+//     table: {
+//      direction: "rtl",
+//       width: "100%",
+//       tableLayout: "fixed",
+//       borderCollapse: "collapse",
+//       fontSize: "clamp(9px, 2.7vw, 14px)",
+//     },
 
-    productNameCell: {
-      width: "40%",
-    },
+//     productNameCell: {
+//       width: "40%",
+//     },
 
-    productPriceCell: {
-      width: "20%",
-    },
+//     productPriceCell: {
+//       width: "20%",
+//     },
 
-    productQtyCell: {
-      width: "15%",
-    },
+//     productQtyCell: {
+//       width: "15%",
+//     },
 
-    productTotalCell: {
-      width: "25%",
-    },
+//     productTotalCell: {
+//       width: "25%",
+//     },
 
-    expenseNameCell: {
-      width: "65%",
-    },
+//     expenseNameCell: {
+//       width: "65%",
+//     },
 
-    expenseAmountCell: {
-      width: "35%",
-    },
+//     expenseAmountCell: {
+//       width: "35%",
+//     },
 
-    th: {
-      padding: "6px 4px",
-      border: "1px solid #64748b",
-      backgroundColor: "#213558",
-      color: "#ffffff",
-      fontWeight: "800",
-      textAlign: "center",
-      lineHeight: "1.2",
-      overflowWrap: "break-word",
-    },
+//     th: {
+//       padding: "6px 4px",
+//       border: "1px solid #64748b",
+//       backgroundColor: "#213558",
+//       color: "#ffffff",
+//       fontWeight: "800",
+//       textAlign: "center",
+//       lineHeight: "1.2",
+//       overflowWrap: "break-word",
+//     },
 
-    td: {
-      padding: "6px 4px",
-      border: "1px solid #94a3b8",
-      backgroundColor: "#f8fafc",
-      color: "#111827",
-      textAlign: "center",
-      fontWeight: "600",
-      lineHeight: "1.2",
-      overflowWrap: "break-word",
-      wordBreak: "break-word",
-    },
+//     td: {
+//       padding: "6px 4px",
+//       border: "1px solid #94a3b8",
+//       backgroundColor: "#f8fafc",
+//       color: "#111827",
+//       textAlign: "center",
+//       fontWeight: "600",
+//       lineHeight: "1.2",
+//       overflowWrap: "break-word",
+//       wordBreak: "break-word",
+//     },
 
-    numberCell: {
-      padding: "6px 3px",
-      border: "1px solid #94a3b8",
-      backgroundColor: "#f8fafc",
-      color: "#111827",
-      textAlign: "center",
-      fontWeight: "700",
-      fontVariantNumeric: "tabular-nums",
-      whiteSpace: "nowrap",
-      fontSize: "clamp(9px, 2.8vw, 14px)",
-    },
+//     numberCell: {
+//       padding: "6px 3px",
+//       border: "1px solid #94a3b8",
+//       backgroundColor: "#f8fafc",
+//       color: "#111827",
+//       textAlign: "center",
+//       fontWeight: "700",
+//       fontVariantNumeric: "tabular-nums",
+//       whiteSpace: "nowrap",
+//       fontSize: "clamp(9px, 2.8vw, 14px)",
+//     },
 
-    totalLabel: {
-      padding: "7px 4px",
-      border: "1px solid #213558",
-      backgroundColor: "#dbeafe",
-      color: "#111827",
-      textAlign: "right",
-      fontWeight: "800",
-      fontSize: "clamp(9px, 2.8vw, 14px)",
-    },
+//     totalLabel: {
+//       padding: "7px 4px",
+//       border: "1px solid #213558",
+//       backgroundColor: "#dbeafe",
+//       color: "#111827",
+//       textAlign: "right",
+//       fontWeight: "800",
+//       fontSize: "clamp(9px, 2.8vw, 14px)",
+//     },
 
-    totalNumber: {
-      padding: "7px 3px",
-      border: "1px solid #213558",
-      backgroundColor: "#dbeafe",
-      color: "#111827",
-      textAlign: "center",
-      fontWeight: "900",
-      fontVariantNumeric: "tabular-nums",
-      whiteSpace: "nowrap",
-      fontSize: "clamp(10px, 3vw, 16px)",
-    },
+//     totalNumber: {
+//       padding: "7px 3px",
+//       border: "1px solid #213558",
+//       backgroundColor: "#dbeafe",
+//       color: "#111827",
+//       textAlign: "center",
+//       fontWeight: "900",
+//       fontVariantNumeric: "tabular-nums",
+//       whiteSpace: "nowrap",
+//       fontSize: "clamp(10px, 3vw, 16px)",
+//     },
 
-    /* =========================
-       FINAL COUNTING
-    ========================= */
+//     /* =========================
+//        FINAL COUNTING
+//     ========================= */
 
 
-    countingContainer: {
-  width: "100%",
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr",
-  gap: "10px",
-  boxSizing: "border-box",
-  direction: "rtl",
-},
+//     countingContainer: {
+//   width: "100%",
+//   display: "grid",
+//   gridTemplateColumns: "1fr 1fr",
+//   gap: "10px",
+//   boxSizing: "border-box",
+//   direction: "rtl",
+// },
 
-countingCard: {
-  minWidth: 0,
-  boxSizing: "border-box",
-  padding: "12px",
-  borderRadius: "10px",
-  backgroundColor: "#213558",
-  border: "1px solid #4c608e",
-  direction: "rtl",
-},
+// countingCard: {
+//   minWidth: 0,
+//   boxSizing: "border-box",
+//   padding: "12px",
+//   borderRadius: "10px",
+//   backgroundColor: "#213558",
+//   border: "1px solid #4c608e",
+//   direction: "rtl",
+// },
 
-finalCard: {
-  gridColumn: "1 / -1",
-  minWidth: 0,
-  boxSizing: "border-box",
-  padding: "12px",
-  borderRadius: "10px",
-  backgroundColor: "#213558",
-  border: "1px solid #4c608e",
-  direction: "rtl",
-},
+// finalCard: {
+//   gridColumn: "1 / -1",
+//   minWidth: 0,
+//   boxSizing: "border-box",
+//   padding: "12px",
+//   borderRadius: "10px",
+//   backgroundColor: "#213558",
+//   border: "1px solid #4c608e",
+//   direction: "rtl",
+// },
 
-countingRow: {
-  display: "grid",
-  gridTemplateColumns: "1fr auto",
-  alignItems: "center",
-  gap: "8px",
-  padding: "8px 0",
-  borderBottom: "1px solid #4c608e",
-  minWidth: 0,
-},
+// countingRow: {
+//   display: "grid",
+//   gridTemplateColumns: "1fr auto",
+//   alignItems: "center",
+//   gap: "8px",
+//   padding: "8px 0",
+//   borderBottom: "1px solid #4c608e",
+//   minWidth: 0,
+// },
 
-countingLabel: {
-  direction: "rtl",
-  whiteSpace: "nowrap",
-  fontSize: "clamp(11px, 3vw, 15px)",
-  color: "#ffffff",
-  fontWeight: "600",
-},
+// countingLabel: {
+//   direction: "rtl",
+//   whiteSpace: "nowrap",
+//   fontSize: "clamp(11px, 3vw, 15px)",
+//   color: "#ffffff",
+//   fontWeight: "600",
+// },
 
-countingNumber: {
-  direction: "ltr",
-  unicodeBidi: "isolate",
-  whiteSpace: "nowrap",
-  fontSize: "clamp(11px, 3vw, 15px)",
-  color: "#ffffff",
-  textAlign: "left",
-},
+// countingNumber: {
+//   direction: "ltr",
+//   unicodeBidi: "isolate",
+//   whiteSpace: "nowrap",
+//   fontSize: "clamp(11px, 3vw, 15px)",
+//   color: "#ffffff",
+//   textAlign: "left",
+// },
 
-countingTotal: {
-  display: "grid",
-  gridTemplateColumns: "1fr auto",
-  alignItems: "center",
-  gap: "8px",
-  marginTop: "8px",
-  padding: "9px 7px",
-  borderRadius: "6px",
-  backgroundColor: "#d8b804",
-  minWidth: 0,
-},
+// countingTotal: {
+//   display: "grid",
+//   gridTemplateColumns: "1fr auto",
+//   alignItems: "center",
+//   gap: "8px",
+//   marginTop: "8px",
+//   padding: "9px 7px",
+//   borderRadius: "6px",
+//   backgroundColor: "#d8b804",
+//   minWidth: 0,
+// },
 
-difference: {
-  display: "grid",
-  gridTemplateColumns: "1fr auto",
-  alignItems: "center",
-  gap: "8px",
-  marginTop: "8px",
-  padding: "9px 7px",
-  borderRadius: "6px",
-  minWidth: 0,
-},
+// difference: {
+//   display: "grid",
+//   gridTemplateColumns: "1fr auto",
+//   alignItems: "center",
+//   gap: "8px",
+//   marginTop: "8px",
+//   padding: "9px 7px",
+//   borderRadius: "6px",
+//   minWidth: 0,
+// },
 
-    // countingContainer: {
-    //   display: "grid",
-    //   gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-    //   gap: "5px",
-    //   width: "100%",
-    //   boxSizing: "border-box",
-    // },
+//     // countingContainer: {
+//     //   display: "grid",
+//     //   gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//     //   gap: "5px",
+//     //   width: "100%",
+//     //   boxSizing: "border-box",
+//     // },
 
-    // countingCard: {
-    //   minWidth: 0,
-    //   width: "100%",
-    //   boxSizing: "border-box",
-    //   padding: "7px 4px",
-    //   backgroundColor: "#213558",
-    //   color: "#ffffff",
-    //   borderRadius: "6px",
-    //   border: "1px solid #4c608e",
-    // },
+//     // countingCard: {
+//     //   minWidth: 0,
+//     //   width: "100%",
+//     //   boxSizing: "border-box",
+//     //   padding: "7px 4px",
+//     //   backgroundColor: "#213558",
+//     //   color: "#ffffff",
+//     //   borderRadius: "6px",
+//     //   border: "1px solid #4c608e",
+//     // },
 
-    // countingCardTitle: {
-    //   textAlign: "center",
-    //   paddingBottom: "5px",
-    //   marginBottom: "6px",
-    //   borderBottom: "1px solid #64748b",
-    //   fontSize: "clamp(9px, 2.8vw, 14px)",
-    //   fontWeight: "800",
-    //   letterSpacing: "7px",
-    // },
+//     // countingCardTitle: {
+//     //   textAlign: "center",
+//     //   paddingBottom: "5px",
+//     //   marginBottom: "6px",
+//     //   borderBottom: "1px solid #64748b",
+//     //   fontSize: "clamp(9px, 2.8vw, 14px)",
+//     //   fontWeight: "800",
+//     //   letterSpacing: "7px",
+//     // },
 
-    // countingItem: {
-    //   display: "flex",
-    //   flexDirection: "column",
-    //   alignItems: "center",
-    //   justifyContent: "center",
-    //   textAlign: "center",
-    //   minWidth: 0,
-    //   marginBottom: "6px",
-    //   lineHeight: "1.15",
-    // },
+//     // countingItem: {
+//     //   display: "flex",
+//     //   flexDirection: "column",
+//     //   alignItems: "center",
+//     //   justifyContent: "center",
+//     //   textAlign: "center",
+//     //   minWidth: 0,
+//     //   marginBottom: "6px",
+//     //   lineHeight: "1.15",
+//     // },
 
-    // countingLabel: {
-    //   width: "100%",
-    //   color: "#cbd5e1",
-    //   fontSize: "clamp(8px, 2.4vw, 12px)",
-    //   fontWeight: "600",
-    //   overflowWrap: "break-word",
-    //   backgroundColor: "#EB6534",
+//     // countingLabel: {
+//     //   width: "100%",
+//     //   color: "#cbd5e1",
+//     //   fontSize: "clamp(8px, 2.4vw, 12px)",
+//     //   fontWeight: "600",
+//     //   overflowWrap: "break-word",
+//     //   backgroundColor: "#EB6534",
     
     
-    // },
+//     // },
 
-    // countingValue: {
-    //   width: "100%",
-    //   color: "#ffffff",
-    //   fontSize: "clamp(9px, 2.7vw, 14px)",
-    //   fontWeight: "900",
-    //   fontVariantNumeric: "tabular-nums",
-    //   whiteSpace: "normal",
-    //   overflowWrap: "anywhere",
-    //   wordBreak: "break-word",
-    // },
+//     // countingValue: {
+//     //   width: "100%",
+//     //   color: "#ffffff",
+//     //   fontSize: "clamp(9px, 2.7vw, 14px)",
+//     //   fontWeight: "900",
+//     //   fontVariantNumeric: "tabular-nums",
+//     //   whiteSpace: "normal",
+//     //   overflowWrap: "anywhere",
+//     //   wordBreak: "break-word",
+//     // },
 
-    // countingTotal: {
-    //   display: "flex",
-    //   flexDirection: "column",
-    //   alignItems: "center",
-    //   textAlign: "center",
-    //   paddingTop: "5px",
-    //   borderTop: "1px solid #64748b",
-    //   lineHeight: "1.15",
-    // },
+//     // countingTotal: {
+//     //   display: "flex",
+//     //   flexDirection: "column",
+//     //   alignItems: "center",
+//     //   textAlign: "center",
+//     //   paddingTop: "5px",
+//     //   borderTop: "1px solid #64748b",
+//     //   lineHeight: "1.15",
+//     // },
 
-    // difference: {
-    //   display: "flex",
-    //   flexDirection: "column",
-    //   alignItems: "center",
-    //   textAlign: "center",
-    //   marginTop: "5px",
-    //   padding: "5px 2px",
-    //   borderRadius: "4px",
-    //   color: "#111827",
-    //   lineHeight: "1.15",
-    // },
+//     // difference: {
+//     //   display: "flex",
+//     //   flexDirection: "column",
+//     //   alignItems: "center",
+//     //   textAlign: "center",
+//     //   marginTop: "5px",
+//     //   padding: "5px 2px",
+//     //   borderRadius: "4px",
+//     //   color: "#111827",
+//     //   lineHeight: "1.15",
+//     // },
 
-    /* =========================
-       SIGNATURE
-    ========================= */
+//     /* =========================
+//        SIGNATURE
+//     ========================= */
 
-    signature: {
-      display: "flex",
-      justifyContent: "flex-end",
-      marginTop: "22px",
-      paddingTop: "10px",
-      borderTop: "2px solid #213558",
-    },
+//     signature: {
+//       display: "flex",
+//       justifyContent: "flex-end",
+//       marginTop: "22px",
+//       paddingTop: "10px",
+//       borderTop: "2px solid #213558",
+//     },
 
-    signatureBox: {
-      width: "150px",
-      maxWidth: "45%",
-      textAlign: "center",
-    },
+//     signatureBox: {
+//       width: "150px",
+//       maxWidth: "45%",
+//       textAlign: "center",
+//     },
 
-    signatureLine: {
-      height: "1px",
-      backgroundColor: "#111827",
-      marginBottom: "5px",
-    },
+//     signatureLine: {
+//       height: "1px",
+//       backgroundColor: "#111827",
+//       marginBottom: "5px",
+//     },
 
-    signatureLabel: {
-      margin: 0,
-      color: "#475569",
-      fontSize: "10px",
-    },
+//     signatureLabel: {
+//       margin: 0,
+//       color: "#475569",
+//       fontSize: "10px",
+//     },
 
-    signatureName: {
-      margin: "3px 0 0",
-      color: "#213558",
-      fontSize: "clamp(11px, 3vw, 15px)",
-      fontWeight: "800",
-      overflowWrap: "break-word",
-    },
+//     signatureName: {
+//       margin: "3px 0 0",
+//       color: "#213558",
+//       fontSize: "clamp(11px, 3vw, 15px)",
+//       fontWeight: "800",
+//       overflowWrap: "break-word",
+//     },
 
-    /* =========================
-       EXPORT BUTTON
-    ========================= */
+//     /* =========================
+//        EXPORT BUTTON
+//     ========================= */
 
-    button: {
-      display: "block",
-      width: "min(100%, 300px)",
-      margin: "14px auto 0",
-      padding: "11px 18px",
-      boxSizing: "border-box",
-      backgroundColor: "#16a34a",
-      color: "#ffffff",
-      border: "none",
-      borderRadius: "7px",
-      fontSize: "16px",
-      fontWeight: "800",
-      cursor: "pointer",
-    },
-  };
+//     button: {
+//       display: "block",
+//       width: "min(100%, 300px)",
+//       margin: "14px auto 0",
+//       padding: "11px 18px",
+//       boxSizing: "border-box",
+//       backgroundColor: "#16a34a",
+//       color: "#ffffff",
+//       border: "none",
+//       borderRadius: "7px",
+//       fontSize: "16px",
+//       fontWeight: "800",
+//       cursor: "pointer",
+//     },
+//   };
+
+
+
+
+const styles = {
+  page: {
+    width: "100%",
+    minHeight: "100vh",
+    padding: "8px",
+    boxSizing: "border-box",
+    backgroundColor: "#0f172a",
+    fontFamily: "Arial, sans-serif",
+  },
+
+  report: {
+    position: "relative",
+    width: "100%",
+    maxWidth: "620px",
+    margin: "0 auto",
+    padding: "10px",
+    boxSizing: "border-box",
+    backgroundColor: "#ffffff",
+    color: "#111827",
+    borderRadius: "6px",
+  },
+
+  /* =========================
+     SMALL LOGO
+  ========================= */
+
+  logo: {
+    position: "absolute",
+    top: "7px",
+    right: "7px",
+    width: "38px",
+    height: "38px",
+    objectFit: "contain",
+    display: "block",
+  },
+
+  /* =========================
+     TABLES AREA
+  ========================= */
+
+  tablesContainer: {
+    width: "100%",
+    display: "grid",
+    gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
+    gap: "7px",
+    alignItems: "start",
+    boxSizing: "border-box",
+  },
+
+  tableSection: {
+    minWidth: 0,
+    width: "100%",
+  },
+
+  sectionTitle: {
+    margin: "0 0 5px",
+    padding: "5px 6px",
+    backgroundColor: "#213558",
+    color: "#ffffff",
+    borderRadius: "4px",
+    fontSize: "12px",
+    fontWeight: "800",
+    textAlign: "center",
+  },
+
+  tableWrapper: {
+    width: "100%",
+    boxSizing: "border-box",
+  },
+
+  table: {
+    direction: "rtl",
+    width: "100%",
+    tableLayout: "fixed",
+    borderCollapse: "collapse",
+    fontSize: "10px",
+  },
+
+  /* =========================
+     PRODUCT COLUMNS
+  ========================= */
+
+  productNameCell: {
+    width: "40%",
+  },
+
+  productPriceCell: {
+    width: "20%",
+  },
+
+  productQtyCell: {
+    width: "15%",
+  },
+
+  productTotalCell: {
+    width: "25%",
+  },
+
+  /* =========================
+     EXPENSE COLUMNS
+  ========================= */
+
+  expenseNameCell: {
+    width: "65%",
+  },
+
+  expenseAmountCell: {
+    width: "35%",
+  },
+
+  /* =========================
+     TABLE CELLS
+  ========================= */
+
+  th: {
+    padding: "4px 2px",
+    border: "1px solid #64748b",
+    backgroundColor: "#213558",
+    color: "#ffffff",
+    fontWeight: "800",
+    textAlign: "center",
+    lineHeight: "1.1",
+    overflowWrap: "break-word",
+  },
+
+  td: {
+    padding: "4px 2px",
+    border: "1px solid #94a3b8",
+    backgroundColor: "#f8fafc",
+    color: "#111827",
+    textAlign: "center",
+    fontWeight: "600",
+    lineHeight: "1.1",
+    overflowWrap: "break-word",
+    wordBreak: "break-word",
+  },
+
+  numberCell: {
+    padding: "4px 2px",
+    border: "1px solid #94a3b8",
+    backgroundColor: "#f8fafc",
+    color: "#111827",
+    textAlign: "center",
+    fontWeight: "700",
+    fontVariantNumeric: "tabular-nums",
+    whiteSpace: "nowrap",
+    fontSize: "10px",
+  },
+
+  totalLabel: {
+    padding: "5px 3px",
+    border: "1px solid #213558",
+    backgroundColor: "#dbeafe",
+    color: "#111827",
+    textAlign: "right",
+    fontWeight: "800",
+    fontSize: "10px",
+  },
+
+  totalNumber: {
+    padding: "5px 2px",
+    border: "1px solid #213558",
+    backgroundColor: "#dbeafe",
+    color: "#111827",
+    textAlign: "center",
+    fontWeight: "900",
+    fontVariantNumeric: "tabular-nums",
+    whiteSpace: "nowrap",
+    fontSize: "10px",
+  },
+
+  /* =========================
+     COUNTING
+  ========================= */
+
+  countingSection: {
+    width: "100%",
+    marginTop: "8px",
+  },
+
+  countingContainer: {
+    width: "100%",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "6px",
+    boxSizing: "border-box",
+    direction: "rtl",
+  },
+
+  countingCard: {
+    minWidth: 0,
+    boxSizing: "border-box",
+    padding: "7px",
+    borderRadius: "7px",
+    backgroundColor: "#213558",
+    border: "1px solid #4c608e",
+    direction: "rtl",
+  },
+
+  finalCard: {
+    gridColumn: "1 / -1",
+    minWidth: 0,
+    boxSizing: "border-box",
+    padding: "7px",
+    borderRadius: "7px",
+    backgroundColor: "#213558",
+    border: "1px solid #4c608e",
+    direction: "rtl",
+  },
+
+  countingRow: {
+    display: "grid",
+    gridTemplateColumns: "1fr auto",
+    alignItems: "center",
+    gap: "5px",
+    padding: "5px 0",
+    borderBottom: "1px solid #4c608e",
+    minWidth: 0,
+  },
+
+  countingLabel: {
+    direction: "rtl",
+    whiteSpace: "nowrap",
+    fontSize: "11px",
+    color: "#ffffff",
+    fontWeight: "600",
+  },
+
+  countingNumber: {
+    direction: "ltr",
+    unicodeBidi: "isolate",
+    whiteSpace: "nowrap",
+    fontSize: "11px",
+    color: "#ffffff",
+    textAlign: "left",
+  },
+
+  countingTotal: {
+    display: "grid",
+    gridTemplateColumns: "1fr auto",
+    alignItems: "center",
+    gap: "5px",
+    marginTop: "5px",
+    padding: "6px",
+    borderRadius: "5px",
+    backgroundColor: "#d8b804",
+    minWidth: 0,
+  },
+
+  difference: {
+    display: "grid",
+    gridTemplateColumns: "1fr auto",
+    alignItems: "center",
+    gap: "5px",
+    marginTop: "5px",
+    padding: "6px",
+    borderRadius: "5px",
+    minWidth: 0,
+  },
+
+  /* =========================
+     CASHIER SIGNATURE
+  ========================= */
+
+  signature: {
+    display: "flex",
+    justifyContent: "flex-end",
+    marginTop: "8px",
+    paddingTop: "6px",
+    borderTop: "1px solid #213558",
+  },
+
+  signatureBox: {
+    width: "120px",
+    maxWidth: "40%",
+    textAlign: "center",
+  },
+
+  signatureLine: {
+    height: "1px",
+    backgroundColor: "#111827",
+    marginBottom: "3px",
+  },
+
+  signatureLabel: {
+    margin: 0,
+    color: "#475569",
+    fontSize: "8px",
+  },
+
+  signatureName: {
+    margin: "2px 0 0",
+    color: "#213558",
+    fontSize: "11px",
+    fontWeight: "800",
+    overflowWrap: "break-word",
+  },
+
+  /* =========================
+     EXPORT BUTTON
+  ========================= */
+
+  button: {
+    display: "block",
+    width: "min(100%, 280px)",
+    margin: "10px auto 0",
+    padding: "10px 16px",
+    boxSizing: "border-box",
+    backgroundColor: "#16a34a",
+    color: "#ffffff",
+    border: "none",
+    borderRadius: "7px",
+    fontSize: "15px",
+    fontWeight: "800",
+    cursor: "pointer",
+  },
+};
+
 
   async function exportPNG() {
     if (!reportRef.current) {
@@ -486,11 +809,13 @@ difference: {
 
   return (
     <div style={styles.page}>
+    
 
       <div
         ref={reportRef}
         style={styles.report}
       >
+  
 
         {/* ==================================
             HEADER
@@ -695,7 +1020,7 @@ difference: {
                   <tr key={expense.id}>
 
                     <td style={styles.td}>
-                      {expense.expName}
+                      {expense.name}
                     </td>
 
                     <td style={styles.numberCell}>

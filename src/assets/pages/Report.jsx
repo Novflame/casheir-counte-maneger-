@@ -1,4 +1,3 @@
-
 import Container from "@mui/material/Container";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,16 +6,22 @@ export default function Report() {
   const [products, setProducts] = useState(() => {
     return JSON.parse(localStorage.getItem("fixedProducts")) || [];
   });
+  const [error, setError] = useState("");
+  const [errorShake, setErrorShake] = useState(false);
 
-  const [fixedExpensess] = useState(() => {
-    const data = JSON.parse(
-      localStorage.getItem("fixedExpensess")
-    );
+  // const [fixedExpensess] = useState(() => {
+  //   const data = JSON.parse(
+  //     localStorage.getItem("fixedExpensess")
+  //   );
 
-    return data?.expenses || [];
+  //   return data?.expenses || [];
+  // });
+
+  const [fixedExpenses] = useState(() => {
+    return JSON.parse(localStorage.getItem("fixedExpenses")) || [];
   });
 
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   function formatNumber(value) {
     return Number(value || 0).toLocaleString("de-DE");
@@ -30,56 +35,119 @@ export default function Report() {
               ...product,
               qty: Number(value),
             }
-          : product
-      )
+          : product,
+      ),
     );
   }
 
   const totalSales = products.reduce(
     (sum, product) =>
-      sum +
-      Number(product.fixedPrice || 0) *
-        Number(product.qty || 0),
-    0
+      sum + Number(product.fixedPrice || 0) * Number(product.qty || 0),
+    0,
   );
 
-  const totalExpenses = fixedExpensess.reduce(
-    (sum, item) =>
-      sum + Number(item.amount || 0),
-    0
+  // const totalExpenses = fixedExpensess.reduce(
+  //   (sum, item) =>
+  //     sum + Number(item.amount || 0),
+  //   0
+  // );
+  const totalExpenses = fixedExpenses.reduce(
+    (sum, expense) => sum + Number(expense.amount),
+    0,
   );
-
   const net = totalSales - totalExpenses;
 
+  // function saveReport() {
+  //   const finalProducts = products.map((product) => ({
+  //     id: product.id,
+  //     name: product.name,
+  //     fixedPrice: Number(product.fixedPrice || 0),
+  //     qty: Number(product.qty || 0),
+  //     total: Number(product.fixedPrice || 0) * Number(product.qty || 0),
+  //   }));
+
+  //   const invalidProduct = products.some(
+  //     (product) =>
+  //       product.qty === "" ||
+  //       product.qty === undefined ||
+  //       product.qty === null ||
+  //       Number(product.qty) < 0,
+  //   );
+
+  //   if (invalidProduct) {
+  //     setError("Please enter the quantity for every product.");
+  //     setErrorShake(false);
+  //     setTimeout(() => {
+  //       setErrorShake(true);
+  //     }, 10);
+  //     return;
+  //   }
+  
+
+    
+  //   }
+
   function saveReport() {
-    const finalProducts = products.map((product) => ({
-      id: product.id,
-      name: product.name,
-      fixedPrice: Number(product.fixedPrice || 0),
-      qty: Number(product.qty || 0),
-      total:
-        Number(product.fixedPrice || 0) *
-        Number(product.qty || 0),
-    }));
+  const invalidProduct = products.some(
+    (product) =>
+      product.qty === "" ||
+      product.qty === undefined ||
+      product.qty === null ||
+      Number(product.qty) < 0
+  );
 
+  if (invalidProduct) {
+    setError("Please enter the quantity for every product.");
 
+    setErrorShake(false);
 
+    setTimeout(() => {
+      setErrorShake(true);
+    }, 10);
 
-    const finalReport = {
-      products: finalProducts,
-      expenses: fixedExpensess,
-      totalSales,
-      totalExpenses,
-      net,
-    };
+     setTimeout(() => {
+      setError("");
+    }, 3000);
 
-    localStorage.setItem(
-      "finalReport",
-      JSON.stringify(finalReport)
-    );
-
-     navigate("/Counting");
+    return;
   }
+
+  const finalProducts = products.map((product) => ({
+    id: product.id,
+    name: product.name,
+    fixedPrice: Number(product.fixedPrice || 0),
+    qty: Number(product.qty || 0),
+    total:
+      Number(product.fixedPrice || 0) *
+      Number(product.qty || 0),
+  }));
+
+
+
+
+  const finalReport = {
+    products: finalProducts,
+    expenses: fixedExpenses,
+    totalSales,
+    totalExpenses,
+    net,
+  };
+
+  localStorage.setItem(
+    "finalReport",
+    JSON.stringify(finalReport)
+  );
+
+  setError("");
+
+  navigate("/Counting");
+}
+
+ 
+
+ 
+
+  
 
   return (
     <Container
@@ -91,8 +159,19 @@ export default function Report() {
         boxSizing: "border-box",
       }}
     >
-
       {/* NAVIGATION */}
+      <button
+        type="button"
+        className=" bg-amber-300 w-full my-2 p-2
+   text-3xl text-blue-900
+  hover:text-red-300 rounded-2xl
+  "
+        onClick={() => {
+          navigate("/Exepensess?mode=update");
+        }}
+      >
+        Expenses
+      </button>
 
       {/* <nav
         style={{
@@ -162,33 +241,23 @@ export default function Report() {
         >
           <thead>
             <tr>
-              <th style={styles.th}>
-                المنتج
-              </th>
+              <th style={styles.th}>المنتج</th>
 
-              <th style={styles.th}>
-                السعر
-              </th>
+              <th style={styles.th}>السعر</th>
 
-              <th style={styles.th}>
-                الكمية
-              </th>
+              <th style={styles.th}>الكمية</th>
 
-              <th style={styles.th}>
-                الإجمالي
-              </th>
+              <th style={styles.th}>الإجمالي</th>
             </tr>
           </thead>
 
           <tbody>
             {products.map((product) => {
               const rowTotal =
-                Number(product.fixedPrice || 0) *
-                Number(product.qty || 0);
+                Number(product.fixedPrice || 0) * Number(product.qty || 0);
 
               return (
                 <tr key={product.id}>
-
                   <td style={styles.td}>
                     <span
                       style={{
@@ -202,9 +271,7 @@ export default function Report() {
                     </span>
                   </td>
 
-                  <td style={styles.td}>
-                    {formatNumber(product.fixedPrice)}
-                  </td>
+                  <td style={styles.td}>{formatNumber(product.fixedPrice)}</td>
 
                   <td style={styles.td}>
                     <input
@@ -212,10 +279,7 @@ export default function Report() {
                       min="0"
                       value={product.qty || ""}
                       onChange={(e) =>
-                        handleQtyChange(
-                          product.id,
-                          e.target.value
-                        )
+                        handleQtyChange(product.id, e.target.value)
                       }
                       style={{
                         width: "100%",
@@ -230,10 +294,7 @@ export default function Report() {
                     />
                   </td>
 
-                  <td style={styles.td}>
-                    {formatNumber(rowTotal)}
-                  </td>
-
+                  <td style={styles.td}>{formatNumber(rowTotal)}</td>
                 </tr>
               );
             })}
@@ -241,7 +302,6 @@ export default function Report() {
 
           <tfoot>
             <tr>
-
               <td
                 colSpan="3"
                 style={{
@@ -262,7 +322,6 @@ export default function Report() {
               >
                 {formatNumber(totalSales)}
               </td>
-
             </tr>
           </tfoot>
         </table>
@@ -278,25 +337,30 @@ export default function Report() {
           marginTop: "12px",
         }}
       >
+        <SummaryBox title="SALES" value={totalSales} />
 
-        <SummaryBox
-          title="SALES"
-          value={totalSales}
-        />
+        <SummaryBox title="EXPENSES" value={totalExpenses} />
 
-        <SummaryBox
-          title="EXPENSES"
-          value={totalExpenses}
-        />
-
-        <SummaryBox
-          title="NET"
-          value={net}
-        />
-
+        <SummaryBox title="NET" value={net} />
       </div>
 
       {/* SAVE */}
+
+      {error && (
+        <p
+          className={errorShake ? "error-shake" : ""}
+          style={{
+            color: "#dc2626",
+            backgroundColor: "#fee2e2",
+            padding: "10px",
+            borderRadius: "6px",
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
+          {error}
+        </p>
+      )}
 
       <button
         onClick={saveReport}
@@ -315,11 +379,9 @@ export default function Report() {
       >
         SAVE FINAL REPORT
       </button>
-
     </Container>
   );
 }
-
 
 /* TABLE STYLES */
 
@@ -342,7 +404,6 @@ const styles = {
     overflow: "hidden",
   },
 };
-
 
 /* SUMMARY */
 

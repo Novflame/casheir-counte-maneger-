@@ -122,6 +122,14 @@ export default function SetupStart() {
     }
   }
 
+
+
+
+
+
+
+
+
   function handleCancelEdit() {
     setEditingId(null);
     setName("");
@@ -146,7 +154,7 @@ export default function SetupStart() {
     }
 
     // Original first-time setup flow.
-    navigate("/Exepensess");
+   navigate("/setupExpenses");
   }
 
   const styles = {

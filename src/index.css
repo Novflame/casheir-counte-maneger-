@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-
-
-
-
 .page-wrapper {
   width: 100%;
 }
@@ -36,4 +32,37 @@
   transition:
     opacity 300ms ease,
     transform 300ms ease;
+}
+
+.report-tables {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.error-shake {
+  animation: errorFlash 0.5s ease-in-out;
+}
+@keyframes errorFlash {
+  0% {
+    background-color: #fee2e2;
+  }
+  25% {
+    background-color: #fca5a5;
+  }
+  50% {
+    background-color: #fee2e2;
+  }
+  75% {
+    background-color: #fca5a5;
+  }
+  100% {
+    background-color: #fee2e2;
+  }
+}
+
+@media (max-width: 600px) {
+  .report-tables {
+    grid-template-columns: 1fr;
+  }
 }
