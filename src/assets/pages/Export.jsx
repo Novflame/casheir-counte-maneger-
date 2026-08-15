@@ -31,6 +31,39 @@ export default function Export() {
   const counting =
     JSON.parse(localStorage.getItem("counting")) || null;
 
+  // Also compute the current merged expenses at render time so Export
+  // always reflects the latest fixed + ad-hoc expenses even if finalReport
+  // was saved earlier.
+  const storedFixedExpenses = JSON.parse(
+    localStorage.getItem("fixedExpenses") || "[]"
+  );
+
+  const currentReportExpenses = JSON.parse(
+    localStorage.getItem("currentReportExpenses") || "[]"
+  );
+
+  const mergedExpensesForExport = [
+    ...storedFixedExpenses,
+    ...currentReportExpenses,
+  ];
+
+  const totalExpensesForExport = mergedExpensesForExport.reduce(
+    (sum, e) => sum + Number(e.amount || 0),
+    0,
+  );
+
+  // Ensure the `report` object reflects the latest merged expenses for export
+  // (mutating the in-memory object so templates that read report.* show the
+  // combined data). This avoids depending solely on when finalReport was saved.
+  try {
+    report.expenses = mergedExpensesForExport;
+    report.totalExpenses = totalExpensesForExport;
+    report.net = (report.totalSales || 0) - totalExpensesForExport;
+  } catch (err) {
+    // If mutation fails for any reason, fall back to using mergedExpensesForExport directly in the template.
+    console.warn("Could not update report object for export view:", err);
+  }
+
 
 
 // STYLES //////
@@ -458,6 +491,21 @@ export default function Export() {
 
 
 const styles = {
+   header: {
+    width: "100%",
+    minHeight: "70px",
+    padding: "10px 15px",
+    boxSizing: "border-box",
+
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+
+    backgroundColor: "#213558",
+    color: "#ffffff",
+
+    boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
+  },
   page: {
     width: "100%",
     minHeight: "100vh",
@@ -482,15 +530,51 @@ const styles = {
   /* =========================
      SMALL LOGO
   ========================= */
+ logo: {
+    width: "48px",
+    height: "48px",
+    objectFit: "contain",
+    flexShrink: 0,
+  },
 
-  logo: {
+  logobtm: {
     position: "absolute",
-    top: "7px",
-    right: "7px",
-    width: "38px",
-    height: "38px",
+    buttom: "7px",
+    left: "7px",
+    width: "50px",
+    height: "45px",
     objectFit: "contain",
     display: "block",
+  },
+ companyName: {
+    margin: 0,
+    fontSize: "18px",
+    fontWeight: "800",
+    color: "#ffffff",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+    companyInfo: {
+    display: "flex",
+    flexDirection: "column",
+    minWidth: 0,
+  },
+
+  division: {
+    margin: "2px 0 0",
+    fontSize: "12px",
+    color: "#cbd5e1",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+
+  right: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    flexShrink: 0,
   },
 
   /* =========================
@@ -807,6 +891,10 @@ const styles = {
     }
   }
 
+
+
+
+
   return (
     <div style={styles.page}>
     
@@ -829,8 +917,13 @@ const styles = {
             style={styles.logo}
           />
 
-          <div style={styles.headerInfo}>
+            <h2 style={styles.arabicTitle}>
+          تقرير الكاشير اليومي
+        </h2>
 
+
+          <div style={styles.headerInfo}>
+           
             <h1 style={styles.companyName}>
               {companyInfo?.compName || "Company"}
             </h1>
@@ -839,29 +932,25 @@ const styles = {
               {companyInfo?.division || ""}
             </p>
 
-            {/* <p style={styles.reportTitle}>
-              Daily Cashier Report
-            </p> */}
+           
 
           </div>
 
         </header>
 
 
-        <h2 style={styles.arabicTitle}>
-          تقرير الكاشير اليومي
-        </h2>
+       
 
 
         {/* ==================================
             PRODUCTS TABLE
         ================================== */}
 
-        <h2 style={styles.sectionTitle}>
+        {/* <h2 style={styles.sectionTitle}>
           المنتجات
-        </h2>
+        </h2> */}
 
-        <div style={styles.tableWrapper}>
+        {/* <div style={styles.tableWrapper}>
 
           <table style={styles.table}>
 
@@ -962,16 +1051,18 @@ const styles = {
 
           </table>
 
-        </div>
+        </div> */}
 
 
         {/* ==================================
             EXPENSES TABLE
-        ================================== */}
+//         ================================== */}
 
-        <h2 style={styles.sectionTitle}>
-          المصروفات
+       {/* <h2 style={styles.sectionTitle}>
+// //           المصروفات
         </h2>
+
+
 
         <div style={styles.tableWrapper}>
 
@@ -1000,7 +1091,7 @@ const styles = {
 
             <tbody>
 
-              {report.expenses.length === 0 ? (
+              {mergedExpensesForExport.length === 0 ? (
 
                 <tr>
 
@@ -1015,7 +1106,7 @@ const styles = {
 
               ) : (
 
-                report.expenses.map((expense) => (
+                mergedExpensesForExport.map((expense) => (
 
                   <tr key={expense.id}>
 
@@ -1053,7 +1144,197 @@ const styles = {
 
           </table>
 
-        </div>
+        </div> 
+ */}
+
+
+
+
+{/* ==================================
+    PRODUCTS + EXPENSES
+================================== */}
+
+<div style={styles.tablesContainer}
+className="mt-1">
+
+  {/* PRODUCTS TABLE */}
+  <div style={styles.tableSection}>
+
+    <h2 style={styles.sectionTitle}>
+      المنتجات
+    </h2>
+
+    <div style={styles.tableWrapper}>
+
+      <table style={styles.table}>
+
+        <colgroup>
+          <col style={styles.productNameCell} />
+          <col style={styles.productPriceCell} />
+          <col style={styles.productQtyCell} />
+          <col style={styles.productTotalCell} />
+        </colgroup>
+
+        <thead>
+          <tr>
+            <th style={styles.th}>المنتج</th>
+            <th style={styles.th}>السعر</th>
+            <th style={styles.th}>الكمية</th>
+            <th style={styles.th}>الإجمالي</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {report.products.length === 0 ? (
+
+            <tr>
+              <td
+                colSpan="4"
+                style={styles.td}
+              >
+                لا توجد منتجات
+              </td>
+            </tr>
+
+          ) : (
+
+            report.products.map((product) => {
+
+              const rowTotal =
+                Number(product.fixedPrice || 0) *
+                Number(product.qty || 0);
+
+              return (
+                <tr key={product.id}>
+
+                  <td style={styles.td}>
+                    {product.name}
+                  </td>
+
+                  <td style={styles.numberCell}>
+                    {formatNumber(product.fixedPrice)}
+                  </td>
+
+                  <td style={styles.numberCell}>
+                    {formatNumber(product.qty)}
+                  </td>
+
+                  <td style={styles.numberCell}>
+                    {formatNumber(rowTotal)}
+                  </td>
+
+                </tr>
+              );
+            })
+          )}
+
+        </tbody>
+
+        <tfoot>
+          <tr>
+
+            <td
+              colSpan="3"
+              style={styles.totalLabel}
+            >
+              إجمالي المبيعات
+            </td>
+
+            <td style={styles.totalNumber}>
+              {formatNumber(report.totalSales)}
+            </td>
+
+          </tr>
+        </tfoot>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+  {/* EXPENSES TABLE */}
+  <div style={styles.tableSection}>
+
+    <h2 style={styles.sectionTitle}>
+      المصروفات
+    </h2>
+
+    <div style={styles.tableWrapper}>
+
+      <table style={styles.table}>
+
+        <colgroup>
+          <col style={styles.expenseNameCell} />
+          <col style={styles.expenseAmountCell} />
+        </colgroup>
+
+        <thead>
+          <tr>
+            <th style={styles.th}>المصروف</th>
+            <th style={styles.th}>المبلغ</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {report.expenses.length === 0 ? (
+
+            <tr>
+              <td
+                colSpan="2"
+                style={styles.td}
+              >
+                لا توجد مصروفات
+              </td>
+            </tr>
+
+          ) : (
+
+            report.expenses.map((expense) => (
+
+              <tr key={expense.id}>
+
+                <td style={styles.td}>
+                  {expense.name}
+                </td>
+
+                <td style={styles.numberCell}>
+                  {formatNumber(expense.amount)}
+                </td>
+
+              </tr>
+
+            ))
+
+          )}
+
+        </tbody>
+
+        <tfoot>
+          <tr>
+
+            <td style={styles.totalLabel}>
+              إجمالي المصروفات
+            </td>
+
+            <td style={styles.totalNumber}>
+              {formatNumber(report.totalExpenses)}
+            </td>
+
+          </tr>
+        </tfoot>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
 
 
         {/* ==================================
@@ -1350,6 +1631,13 @@ const styles = {
         ================================== */}
 
         <div style={styles.signature}>
+
+           <img 
+           style = {styles.logobtm}
+            src={logo}
+            alt="Company Logo"
+            style={styles.logo}
+          />
 
           <div style={styles.signatureBox}>
 

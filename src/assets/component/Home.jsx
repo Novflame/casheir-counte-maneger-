@@ -10,19 +10,15 @@ function Home() {
     active:scale-95">NEW REPORT</button>
       </Link>
 
-<Link to="History">
+     
+
+<Link to="/History">
  <button className="w-full h-20 rounded-2xl bg-[#213558] hover:bg-[#2c4673]
     text-[#d8b804] text-xl font-bold border border-[#4c608e] shadow-lg transition-all duration-300
     active:scale-95">HISTORY</button>
 </Link>
      
 
-      <button className="w-full h-20 rounded-2xl bg-[#213558] hover:bg-[#2c4673]
-    text-[#d8b804] text-xl font-bold border border-[#4c608e] shadow-lg transition-all duration-300
-    active:scale-95">Setting</button>
-      <button className="w-full h-20 rounded-2xl bg-[#213558] hover:bg-[#2c4673]
-    text-[#d8b804] text-xl font-bold border border-[#4c608e] shadow-lg transition-all duration-300
-    active:scale-95">EXIT</button>
     </div>
   );
 }

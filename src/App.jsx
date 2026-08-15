@@ -16,6 +16,9 @@ import Report from "./assets/pages/Report";
 import Counting from "./assets/pages/Counting";
 import Export from "./assets/pages/Export";
 
+import History from "./assets/pages/History";
+import HistoryReport from "./assets/pages/HistoryReport";
+
 export default function App() {
   const location = useLocation();
   const nodeRef = useRef(null);
@@ -168,6 +171,10 @@ export default function App() {
                     )
                   }
                 />
+                <Route path="/History" element={<History />} />
+                <Route path="/History/:id" element={<HistoryReport />} />
+
+
                 <Route path="/setupExpenses" element={<SetupExpenses />} />
               </Routes>
             </div>

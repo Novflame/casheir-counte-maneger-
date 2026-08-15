@@ -260,7 +260,7 @@ const counting = {
             </div>
 
             <div style={styles.totalRow}>
-              <span>Exist</span>
+              <span>total</span>
               <strong>{moneyExist}</strong>
             </div>
           </CardContent>
@@ -270,6 +270,10 @@ const counting = {
             CARD 2
         ================================== */}
 
+{/* un nasesary cards for now
+ // scrample the ui */}
+
+{/* 
         <Card style={styles.card}>
           <CardContent>
             <div style={styles.title}>2. Sales</div>
@@ -289,13 +293,13 @@ const counting = {
               <strong>{supposed}</strong>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* ==================================
             CARD 3
         ================================== */}
 
-        <Card style={styles.card}>
+        {/* <Card style={styles.card}>
           <CardContent>
             <div style={styles.title}>3. Final Counting</div>
 
@@ -325,7 +329,11 @@ const counting = {
               <strong>{difference}</strong>
             </div>
           </CardContent>
-        </Card>
+        </Card> 
+  */}
+
+
+
       </div>
     </div>
   );

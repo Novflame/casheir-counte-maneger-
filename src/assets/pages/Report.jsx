@@ -21,6 +21,22 @@ export default function Report() {
     return JSON.parse(localStorage.getItem("fixedExpenses")) || [];
   });
 
+  // Include any ad-hoc/new expenses saved for the current report
+  const currentReportExpenses = JSON.parse(
+    localStorage.getItem("currentReportExpenses") || "[]"
+  );
+
+  // Single merged source used for rendering and calculations
+  const mergedExpenses = [...fixedExpenses, ...currentReportExpenses];
+
+  const [reportDate] = useState(() =>
+    new Date().toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })
+  );
+
   const navigate = useNavigate();
 
   function formatNumber(value) {
@@ -46,48 +62,18 @@ export default function Report() {
     0,
   );
 
-  // const totalExpenses = fixedExpensess.reduce(
-  //   (sum, item) =>
-  //     sum + Number(item.amount || 0),
-  //   0
-  // );
-  const totalExpenses = fixedExpenses.reduce(
-    (sum, expense) => sum + Number(expense.amount),
+
+  const totalExpenses = mergedExpenses.reduce(
+    (sum, expense) => sum + Number(expense.amount || 0),
     0,
   );
   const net = totalSales - totalExpenses;
 
-  // function saveReport() {
-  //   const finalProducts = products.map((product) => ({
-  //     id: product.id,
-  //     name: product.name,
-  //     fixedPrice: Number(product.fixedPrice || 0),
-  //     qty: Number(product.qty || 0),
-  //     total: Number(product.fixedPrice || 0) * Number(product.qty || 0),
-  //   }));
-
-  //   const invalidProduct = products.some(
-  //     (product) =>
-  //       product.qty === "" ||
-  //       product.qty === undefined ||
-  //       product.qty === null ||
-  //       Number(product.qty) < 0,
-  //   );
-
-  //   if (invalidProduct) {
-  //     setError("Please enter the quantity for every product.");
-  //     setErrorShake(false);
-  //     setTimeout(() => {
-  //       setErrorShake(true);
-  //     }, 10);
-  //     return;
-  //   }
   
 
-    
-  //   }
+ 
 
-  function saveReport() {
+ function saveReport() {
   const invalidProduct = products.some(
     (product) =>
       product.qty === "" ||
@@ -105,7 +91,7 @@ export default function Report() {
       setErrorShake(true);
     }, 10);
 
-     setTimeout(() => {
+    setTimeout(() => {
       setError("");
     }, 3000);
 
@@ -122,30 +108,47 @@ export default function Report() {
       Number(product.qty || 0),
   }));
 
-
-
-
   const finalReport = {
     products: finalProducts,
-    expenses: fixedExpenses,
+    expenses: mergedExpenses,
     totalSales,
     totalExpenses,
     net,
   };
 
+  // Current report
   localStorage.setItem(
     "finalReport",
     JSON.stringify(finalReport)
   );
 
+  // History
+  const history = JSON.parse(
+    localStorage.getItem("reportHistory") || "[]"
+  );
+
+ const historyReport = {
+   id: crypto.randomUUID(),
+  date: reportDate,
+  report: finalReport,
+};
+  const updatedHistory = [
+    historyReport,
+    ...history,
+  ];
+
+
+
+
+  localStorage.setItem(
+    "reportHistory",
+    JSON.stringify(updatedHistory)
+  );
+
   setError("");
 
-  navigate("/Counting");
+  navigate("/Expenssess");
 }
-
- 
-
- 
 
   
 

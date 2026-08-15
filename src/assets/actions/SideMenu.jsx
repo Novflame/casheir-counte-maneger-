@@ -1,32 +1,29 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DeveloperInfo from "../component/DeveloperInfo";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 export default function SideMenu() {
   const [open, setOpen] = useState(false);
   const [showDeveloperInfo, setShowDeveloperInfo] = useState(false);
   const navigate = useNavigate();
 
-function resetApp() {
-  const confirmed = window.confirm(
-    "Reset the entire app?\n\nAll company, product, expense, and report data will be deleted."
-  );
+  function resetApp() {
+    const confirmed = window.confirm(
+      "Reset the entire app?\n\nAll company, product, expense, and report data will be deleted.",
+    );
 
-  if (!confirmed) {
-    return;
+    if (!confirmed) {
+      return;
+    }
+
+    localStorage.removeItem("companyInfo");
+    localStorage.removeItem("fixedProducts");
+    localStorage.removeItem("fixedExpenses");
+    localStorage.removeItem("currentReportExpenses");
+    localStorage.removeItem("finalReport");
+
+    window.location.href = "/CompanyInfo";
   }
-
-  localStorage.removeItem("companyInfo");
-  localStorage.removeItem("fixedProducts");
-  localStorage.removeItem("fixedExpensess");
-  localStorage.removeItem("currentReportExpenses");
-  localStorage.removeItem("finalReport");
-
-  window.location.href = "/CompanyInfo";
-}
-
-
-
-
 
   const styles = {
     wrapper: {
@@ -112,19 +109,25 @@ function resetApp() {
       textAlign: "left",
       cursor: "pointer",
     },
-    developerButton: {
-      position: "absolute",
-      bottom: "25px",
-      left: "20px",
-      width: "calc(100% - 40px)",
-      padding: "13px",
-      border: "1px solid #475569",
-      borderRadius: "10px",
-      backgroundColor: "transparent",
-      color: "#cbd5e1",
-      fontSize: "15px",
-      cursor: "pointer",
-    },
+   developerButton: {
+  position: "absolute",
+  bottom: "90px",
+  left: "20px",
+  width: "calc(100% - 40px)",
+  padding: "13px",
+  border: "1px solid #475569",
+  borderRadius: "10px",
+  backgroundColor: "#2d3a4f",
+  color: "#cbd5e1",
+  fontSize: "15px",
+  fontWeight: "600",
+  cursor: "pointer",
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "8px",
+},
 
     dangerButton: {
       width: "100%",
@@ -176,6 +179,10 @@ function resetApp() {
                 ×
               </button>
 
+              {/* <div className="relative">
+                <AccountCircleIcon className="text-2xl
+                 text-slate-50 absolute left-1" />
+                
               <button
                 type="button"
                 style={styles.developerButton}
@@ -183,9 +190,33 @@ function resetApp() {
               >
                 Developer Info
               </button>
+
+              </div> */}
+
             </div>
 
             <div style={styles.actions}>
+
+              <button
+  type="button"
+  style={styles.developerButton}
+  onClick={() => setShowDeveloperInfo(true)}
+>
+  <AccountCircleIcon
+    sx={{
+      fontSize: "24px",
+    }}
+  />
+
+  <span>
+    Developer Info
+  </span>
+</button>
+
+
+
+
+
               <button
                 type="button"
                 style={styles.actionButton}
@@ -197,15 +228,26 @@ function resetApp() {
                 Update Fixed Products
               </button>
 
-                <button
+              <button
                 type="button"
                 style={styles.actionButton}
                 onClick={() => {
                   setOpen(false);
-                navigate("/Exepensess?mode=update");
+                  navigate("/Exepensess?mode=update");
                 }}
               >
                 Update Exeoenssess
+              </button>
+
+              <button
+                type="button"
+                style={styles.actionButton}
+                onClick={() => {
+                  setOpen(false);
+                  navigate("/History");
+                }}
+              >
+                HISTORY
               </button>
 
               <button
@@ -215,6 +257,9 @@ function resetApp() {
               >
                 Reset App
               </button>
+
+
+        
             </div>
           </aside>
           {showDeveloperInfo && (

@@ -17,32 +17,16 @@ export default function Exepensess() {
   // =========================
 
   const [exp, setExp] = useState(() => {
-    const saved = JSON.parse(
-      localStorage.getItem("fixedExpensess")
-    );
+  const saved = JSON.parse(
+    localStorage.getItem("fixedExpenses") || "[]"
+  );
 
-    // New structure:
-    // {
-    //   expenses: [],
-    //   total: 0
-    // }
-
-    if (
-      saved &&
-      !Array.isArray(saved) &&
-      Array.isArray(saved.expenses)
-    ) {
-      return saved.expenses;
-    }
-
-    // Backward compatibility
-    if (Array.isArray(saved)) {
-      return saved;
-    }
-
-    return [];
-  });
-
+  return Array.isArray(saved)
+    ? saved
+    : Array.isArray(saved.expenses)
+      ? saved.expenses
+      : [];
+});
   // =========================
   // FORM STATE
   // =========================
@@ -66,85 +50,93 @@ export default function Exepensess() {
   // =========================
 
   function saveExpenses(updatedExpenses) {
-    const total = updatedExpenses.reduce(
-      (sum, expense) => sum + Number(expense.amount || 0),
-      0
-    );
-
-    const expensesData = {
-      expenses: updatedExpenses,
-      total,
-    };
-
+    // Persist as a plain array under the canonical key "fixedExpenses"
+    // to match other parts of the app (SetupExpenses, Report, etc.).
     localStorage.setItem(
-      "fixedExpensess",
-      JSON.stringify(expensesData)
+      "fixedExpenses",
+      JSON.stringify(updatedExpenses)
     );
   }
+
+//   function saveExpenses(updatedExpenses) {
+//   const total = updatedExpenses.reduce(
+//     (sum, expense) => sum + Number(expense.amount || 0),
+//     0
+//   );
+
+//   const expensesData = {
+//     expenses: updatedExpenses,
+//     total,
+//   };
+
+//   localStorage.setItem(
+//     "fixedExpensess",
+//     JSON.stringify(expensesData)
+//   );
+// }
 
   // =========================
   // ADD / UPDATE
   // =========================
-
   function handleForm(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!expName.trim() || expAmount === "") {
-      return;
-    }
+  if (!expName.trim() || expAmount === "") {
+    return;
+  }
 
-    const amount = Number(expAmount);
+  const amount = Number(expAmount);
 
-    if (amount < 0 || Number.isNaN(amount)) {
-      return;
-    }
+  if (amount < 0 || Number.isNaN(amount)) {
+    return;
+  }
 
-    // =====================
-    // UPDATE EXISTING
-    // =====================
+  // =====================
+  // UPDATE EXISTING
+  // =====================
 
-    if (editingId !== null) {
-      const updatedExpenses = exp.map((expense) =>
-        expense.id === editingId
-          ? {
-              ...expense,
-              expName: expName.trim(),
-              amount,
-            }
-          : expense
-      );
-
-      setExp(updatedExpenses);
-      saveExpenses(updatedExpenses);
-
-      setEditingId(null);
-      setExpName("");
-      setExpAmount("");
-
-      return;
-    }
-
-    // =====================
-    // ADD NEW
-    // =====================
-
-    const newExpense = {
-      id: Date.now(),
-      expName: expName.trim(),
-      amount,
-    };
-
-    const updatedExpenses = [
-      ...exp,
-      newExpense,
-    ];
+  if (editingId !== null) {
+    const updatedExpenses = exp.map((expense) =>
+      expense.id === editingId
+        ? {
+            ...expense,
+            name: expName.trim(),
+            amount,
+          }
+        : expense
+    );
 
     setExp(updatedExpenses);
     saveExpenses(updatedExpenses);
 
+    setEditingId(null);
     setExpName("");
     setExpAmount("");
+
+    return;
   }
+
+  // =====================
+  // ADD NEW
+  // =====================
+
+  const newExpense = {
+    id: Date.now(),
+    name: expName.trim(),
+    amount,
+  };
+
+  const updatedExpenses = [
+    ...exp,
+    newExpense,
+  ];
+
+  setExp(updatedExpenses);
+  saveExpenses(updatedExpenses);
+
+  setExpName("");
+  setExpAmount("");
+}
 
   // =========================
   // EDIT
@@ -152,7 +144,7 @@ export default function Exepensess() {
 
   function handleEdit(expense) {
     setEditingId(expense.id);
-    setExpName(expense.expName);
+    setExpName(expense.name);
     setExpAmount(String(expense.amount));
   }
 
@@ -195,7 +187,7 @@ export default function Exepensess() {
       return;
     }
 
-    navigate("/Report");
+    navigate("/Counting");
   }
 
   // =========================
@@ -389,6 +381,146 @@ export default function Exepensess() {
             : "Expenses Setup"}
         </h1>
 
+           <div style={styles.tableCard}>
+
+          <h2
+            style={{
+              color: "#ffffff",
+              fontSize: "24px",
+              marginBottom: "15px",
+            }}
+          >
+            Expenses
+          </h2>
+
+          <table style={styles.table}>
+
+            <thead>
+              <tr>
+
+                <th style={styles.th}>
+                  Expense
+                </th>
+
+                <th style={styles.th}>
+                  Amount
+                </th>
+
+                <th style={styles.th}>
+                  Actions
+                </th>
+
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {exp.length === 0 ? (
+
+                <tr>
+
+                  <td
+                    colSpan="3"
+                    style={styles.empty}
+                  >
+                    No expenses added
+                  </td>
+
+                </tr>
+
+              ) : (
+
+                exp.map((expense) => (
+
+                  <tr key={expense.id}>
+
+                    <td style={styles.td}>
+                      {expense.name}
+                    </td>
+
+                    <td style={styles.td}>
+                      {expense.amount}
+                    </td>
+
+                    <td style={styles.td}>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleEdit(expense)
+                        }
+                        style={{
+                          ...styles.actionButton,
+                          backgroundColor: "#2563eb",
+                        }}
+                      >
+                        EDIT
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleDelete(expense.id)
+                        }
+                        style={{
+                          ...styles.actionButton,
+                          backgroundColor: "#dc2626",
+                        }}
+                      >
+                        DELETE
+                      </button>
+
+                    </td>
+
+                  </tr>
+
+                ))
+
+              )}
+
+            </tbody>
+
+            <tfoot>
+
+              <tr>
+
+                <td
+                  colSpan="2"
+                  style={styles.totalLabel}
+                >
+                  Total Expenses
+                </td>
+
+                <td style={styles.totalValue}>
+                  {totalExpenses}
+                </td>
+
+              </tr>
+
+            </tfoot>
+
+          </table>
+
+          {/* <button
+            type="button"
+            onClick={addToTable}
+            disabled={exp.length === 0}
+            style={{
+              ...styles.saveButton,
+              opacity:
+                exp.length === 0 ? 0.5 : 1,
+              cursor:
+                exp.length === 0
+                  ? "not-allowed"
+                  : "pointer",
+            }}
+          >
+            SAVE & CONTINUE
+          </button> */}
+
+        </div>
+
+
         {/* FORM */}
 
         <div style={styles.formCard}>
@@ -474,7 +606,9 @@ export default function Exepensess() {
 
         {/* TABLE */}
 
-        <div style={styles.tableCard}>
+
+
+        {/* <div style={styles.tableCard}>
 
           <h2
             style={{
@@ -611,7 +745,37 @@ export default function Exepensess() {
             SAVE & CONTINUE
           </button>
 
-        </div>
+        </div> */}
+
+          <button
+            type="button"
+            onClick={addToTable}
+            disabled={exp.length === 0}
+            style={{
+              ...styles.saveButton,
+              opacity:
+                exp.length === 0 ? 0.5 : 1,
+              cursor:
+                exp.length === 0
+                  ? "not-allowed"
+                  : "pointer",
+            }}
+          >
+            SAVE & CONTINUE
+          </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
