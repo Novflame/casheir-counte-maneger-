@@ -21,6 +21,8 @@ export default function SideMenu() {
     localStorage.removeItem("fixedExpenses");
     localStorage.removeItem("currentReportExpenses");
     localStorage.removeItem("finalReport");
+    localStorage.removeItem("reportHistory");
+    
 
     window.location.href = "/CompanyInfo";
   }
